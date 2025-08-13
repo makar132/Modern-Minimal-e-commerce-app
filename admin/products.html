@@ -1,65 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin – Products | Minimal Store</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin • Products</title>
   <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/utilities.css">
 </head>
-
 <body data-page="adminProducts">
-  <nav class="navbar">
-    <!-- Mobile menu toggle; visible on small screens -->
-    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
-    <div class="left">
-      <a href="../index.html" class="brand">Minimal Store</a>
-      <a href="#">Manage Products</a>
-      <a href="#">Manage Categories</a>
-      <a href="#">Manage Orders</a>
-    </div>
-    <div class="right">
-      <button id="modeToggle" class="mode-toggle">Dark Mode</button>
-      <button id="logoutBtn" class="btn btn-outline">Logout</button>
-    </div>
-  </nav>
-  <main>
-    <h2 class="mb-2">Product Management</h2>
-    <table class="mb-3">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Price</th>
-          <th>Stock</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody id="adminProducts"></tbody>
-    </table>
-    <h3 class="mb-1">Add / Edit Product</h3>
-    <form id="productForm">
-      <!-- Hidden field to store ID when editing -->
-      <input type="hidden" name="productId">
-      <label for="name">Name</label>
-      <input type="text" name="name" required>
-      <label for="price">Price</label>
-      <input type="number" name="price" step="0.01" required>
-      <label for="category">Category</label>
-      <select name="category" class="category-select" required></select>
-      <label for="description">Description</label>
-      <textarea name="description" rows="3" required></textarea>
-      <label for="stock">Stock Quantity</label>
-      <input type="number" name="stock" min="0" required>
-      <label for="image">Image Path</label>
-      <input type="text" name="image" placeholder="e.g., images/smartphone.png">
-      <button type="submit" class="btn mt-2">Add Product</button>
-    </form>
+  <main class="container stack">
+    <h1>Admin • Products</h1>
+    <!-- Placeholder page. Implement markup following the guidelines. -->
   </main>
-  <footer>
-    &copy; 2025 Minimal Store
-  </footer>
+  <script type="module" src="../assets/js/main.js"></script>
 </body>
-
 </html>
