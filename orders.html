@@ -1,17 +1,87 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Orders</title>
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
+  <link rel="stylesheet" href="assets/css/pages/orders.css">
 </head>
-<body data-page="orders">
-  <main class="container stack">
-    <h1>My Orders</h1>
-    <!-- Placeholder page. Implement markup following the guidelines. -->
-  </main>
-  <script type="module" src="assets/js/main.js"></script>
+
+<body>
+  <header class="navbar">
+    <button class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="nav-links" id="navMenu">
+      <div class="nav-left">
+        <a href="#">Minimal Store</a>
+        <a href="#">Cart</a>
+        <a href="#">Wishlist</a>
+        <a href="#">My Orders</a>
+      </div>
+      <div class="nav-right">
+        <button class="btn1">Dark Mode</button>
+        <button class="btn">Login</button>
+        <button class="btn">Register</button>
+        <button class="btn">Logout</button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>My Orders</h2>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Items</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ord1755032883620</td>
+            <td>Laptop x2, Reusable Water Bottle x1, Wireless Headphones x1</td>
+            <td><button class="butt pend">pending</button></td>
+            <td>8/13/2025, 12:08:03 AM</td>
+          </tr>
+          <tr>
+            <td>ord1755033603318</td>
+            <td>Wireless Headphones x1, Reusable Water Bottle x1</td>
+            <td><button class="butt conf">confirmed</button></td>
+            <td>8/13/2025, 12:20:03 AM</td>
+          </tr>
+          <tr>
+            <td>ord1755033646743</td>
+            <td>Smartphone x1</td>
+            <td><button class="butt rej">rejected</button></td>
+            <td>8/13/2025, 12:20:46 AM</td>
+          </tr>
+          <tr>
+            <td>ord17550349</td>
+            <td>Smartphone x1, Reusable Water Bottle x1</td>
+            <td><button class="butt pend">pending</button></td>
+            <td>8/13/2025, 12:42:28 AM</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>© 2025 Minimal Store</footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('navMenu');
+      nav.classList.toggle('show');
+    }
+  </script>
 </body>
+
 </html>
