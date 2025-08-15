@@ -1,5 +1,6 @@
 // adminCategories.js — placeholder
 import {
+  db,
   collection,
   doc,
   addDoc,
@@ -13,7 +14,7 @@ import {
   query,
   orderBy,
 } from "../main.js";
-import { qsa } from "../main.js";
+import { qs, qsa, setText } from "../main.js";
 const categoriesCol = collection(db, "categories");
 const els = {
   tbody: document.getElementById("adminCategories"),
@@ -33,6 +34,64 @@ function renderCategory(category) {
   `;
   return tr;
 }
-export function initAdminCategories() {
-  /* implement page wiring here */
+function watchCategories() {
+  const q2 = query(categoriesCol);
+  return onSnapshot(q2, (snap) => {
+    els.tbody.innerHTML = "";
+    snap.forEach((docu) => {
+      console.log({ id: docu.id, ...docu.data() });
+      const tr = renderCategory({ id: docu.id, ...docu.data() });
+      els.tbody.appendChild(tr);
+    });
+  });
 }
+function attachTableEvents() {
+  els.tbody.addEventListener("click", async (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    const id = btn.dataset.id;
+    if (btn.classList.contains("edit")) {
+      prefillCategoryForm(id);
+    } else if (btn.classList.contains("delete")) {
+      if (confirm("Delete this category?")) {
+        await deleteDoc(doc(db, "categories", id));
+      }
+    }
+  });
+}
+export async function prefillCategoryForm(id) {
+  const ref = doc(db, "categories", id);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+  const p = snap.data();
+  els.form.categoryId.value = id;
+  els.form.name.value = p.name || "";
+  //   els.submitBtn.textContent = "Update Category";
+  setText(els.submitBtn, "Update Category");
+}
+window.prefillCategoryForm = prefillCategoryForm;
+async function handleSubmit(e) {
+  e.preventDefault();
+  const fd = new FormData(els.form);
+  const id = fd.get("categoryId");
+  const data = {
+    name: fd.get("name").trim(),
+    updatedAt: serverTimestamp(),
+  };
+  if (id) {
+    await updateDoc(doc(db, "categories", id), data);
+  } else {
+    await addDoc(categoriesCol, { ...data, createdAt: serverTimestamp() });
+  }
+  // UX
+  els.form.reset();
+  els.submitBtn.textContent = "Add Category";
+  els.form.categoryId.value = "";
+}
+export function initAdminCategories() {
+  if (!els.form || !els.tbody) return;
+  els.form.addEventListener("submit", handleSubmit);
+  watchCategories();
+  attachTableEvents();
+}
+initAdminCategories();

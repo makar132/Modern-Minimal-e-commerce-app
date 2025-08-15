@@ -1,7 +1,7 @@
 // assets/js/pages/adminProducts.js
 // Admin products: full CRUD with real-time UI updates.
-import { db } from "../main.js";
 import {
+  db,
   collection,
   doc,
   addDoc,
@@ -47,12 +47,13 @@ async function populateCategorySelects() {
 
 // Render table rows
 function renderRow(id, data) {
+  console.log("renderRow", id, data);
   const tr = document.createElement("tr");
   tr.dataset.id = id;
   tr.innerHTML = `
     <td>${id}</td>
     <td>${data.name}</td>
-    <td>${data.categoryName || data.category || ""}</td>
+    <td>${data.category.name || data.category.id || ""}</td>
     <td>${Number(data.price).toFixed(2)}</td>
     <td>${data.stock ?? 0}</td>
     <td>
@@ -62,7 +63,13 @@ function renderRow(id, data) {
   `;
   return tr;
 }
-
+async function getCategoryName(id) {
+  console.log("getCategoryName", id);
+  const ref = doc(db, "categories", id);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+  return snap.data().name;
+}
 // Prefill form
 export async function prefillProductForm(id) {
   const ref = doc(db, "products", id);
@@ -72,7 +79,7 @@ export async function prefillProductForm(id) {
   els.form.productId.value = id;
   els.form.name.value = p.name || "";
   els.form.price.value = p.price || 0;
-  els.form.category.value = p.category || "";
+  els.form.category.value = p.category.id || "";
   els.form.description.value = p.description || "";
   els.form.stock.value = p.stock ?? 0;
   els.form.image.value = p.image || "";
@@ -89,7 +96,10 @@ async function handleSubmit(e) {
   const data = {
     name: fd.get("name").trim(),
     price: Number(fd.get("price")),
-    category: fd.get("category"),
+    category: {
+      id: fd.get("category"),
+      name: await getCategoryName(fd.get("category")),
+    },
     description: fd.get("description").trim(),
     stock: Number(fd.get("stock")),
     image: fd.get("image").trim(),
@@ -143,8 +153,8 @@ function watchProducts() {
 export function initAdminProducts() {
   if (!els.form || !els.tbody) return;
   els.form.addEventListener("submit", handleSubmit);
-  attachTableEvents();
   watchProducts();
+  attachTableEvents();
   populateCategorySelects();
 }
 
