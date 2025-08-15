@@ -18,6 +18,8 @@
   --primary-hover: #005da3;
   --border-color: #e0e0e0;
   --shadow-color: rgba(0, 0, 0, 0.05);
+  --danger-color: #e74c3c;
+  --danger-hover: #c0392b;
 }
 
 .dark {
@@ -29,6 +31,8 @@
   --primary-hover: #2a7ab8;
   --border-color: #3b3b3b;
   --shadow-color: rgba(0, 0, 0, 0.3);
+  --danger-color: #e74c3c;
+  --danger-hover: #c0392b;
 }
 
 /* Base reset */
@@ -219,6 +223,13 @@ main {
 .btn-outline:hover {
   background-color: var(--primary-color);
   color: #fff;
+}
+.btn-danger {
+  background-color: var(--danger-color);
+  color: #fff;
+}
+.btn-danger:hover {
+  background-color: var(--danger-hover);
 }
 
 /* Forms */

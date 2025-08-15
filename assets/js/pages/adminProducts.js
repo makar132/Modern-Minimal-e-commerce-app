@@ -95,8 +95,8 @@ async function handleSubmit(e) {
     image: fd.get("image").trim(),
     updatedAt: serverTimestamp(),
   };
-  // Basic validation || !data.category
-  if (!data.name || isNaN(data.price) || isNaN(data.stock)) {
+  // Basic validation
+  if (!data.name || !data.category || isNaN(data.price) || isNaN(data.stock)) {
     alert("Please fill all fields correctly.");
     return;
   }
