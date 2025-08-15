@@ -1,1 +1,101 @@
 /* login.css — placeholder page styles following tokens/utilities. */
+
+
+body {
+
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  height: 55px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+}
+
+
+.container {
+  max-width: 350px;
+  margin: 80px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+}
+
+.Title-Login {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.Input-Area {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-Btn {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.Dark-btn {
+  width: 80px;
+  padding: 9px 5px;
+  border: solid 1px;
+  background: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.Dark-btn:hover {
+  background-color: rgb(189, 189, 203);
+}
+
+.login-Btn:hover {
+  background: #0056b3;
+}
+
+.Register-link {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.Register-link a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.Register-link a:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 15px;
+  color: #555;
+}
