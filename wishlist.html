@@ -1,17 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Wishlist</title>
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wish List</title>
+  <link rel="stylesheet" href="assets/css/pages/wishlist.css">
 </head>
-<body data-page="wishlist">
-  <main class="container stack">
-    <h1>Wishlist</h1>
-    <!-- Placeholder page. Implement markup following the guidelines. -->
-  </main>
-  <script type="module" src="assets/js/main.js"></script>
+
+<body>
+  <header class="navbar">
+    <button class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav-links" id="navMenu">
+      <div class="nav-left">
+        <a href="#">Minimal Store</a>
+        <a href="#">Cart</a>
+        <a href="#">Wishlist</a>
+        <a href="#">My Orders</a>
+      </div>
+      <div class="nav-right">
+        <button class="btn1">Dark Mode</button>
+        <button class="btn">Login</button>
+        <button class="btn">Register</button>
+        <button class="btn">Logout</button>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h2>Wish List</h2>
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th colspan="2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Smartphone</td>
+            <td>$499.99</td>
+            <td class="action_Buttons">
+              <button class="btn addBut">Add to cart</button>
+              <button class="btn">Remove</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Wireless Headphones</td>
+            <td>$149.99</td>
+            <td class="action_Buttons">
+              <button class="btn addBut">Add to cart</button>
+              <button class="btn">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>© 2025 Minimal Store</footer>
+
+  <script>
+    function toggleMenu() {
+      const nav = document.getElementById('navMenu');
+      nav.classList.toggle('show');
+    }
+  </script>
 </body>
+
 </html>
