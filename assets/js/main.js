@@ -4,12 +4,17 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebas
 import {
   getFirestore,
   collection,
-  getDocs,
-  getDoc,
   doc,
   addDoc,
+  setDoc,
   updateDoc,
   deleteDoc,
+  onSnapshot,
+  getDoc,
+  getDocs,
+  serverTimestamp,
+  query,
+  orderBy,
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyAcictnKPsnIq7Udyiz2XGIuMo72dRdlvU",
@@ -26,7 +31,30 @@ const app = initializeApp(firebaseConfig);
 // Export the app object for use in other files
 export { app };
 const db = getFirestore(app);
-export { db, collection, getDocs, getDoc, doc, addDoc, updateDoc, deleteDoc };
+export {
+  db,
+  collection,
+  doc,
+  addDoc,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  getDoc,
+  getDocs,
+  serverTimestamp,
+  query,
+  orderBy,
+};
+// Basic UI helpers
+function qs(sel, root = document) {
+  return root.querySelector(sel);
+}
+function qsa(sel, root = document) {
+  return Array.from(root.querySelectorAll(sel));
+}
+function setText(el, txt) {
+  if (el) el.textContent = txt;
+}
 
-window.app = app;
-window.db = db;
+export { qs, qsa, setText };

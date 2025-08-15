@@ -1,150 +1,151 @@
-// adminProducts.js — placeholder
+// assets/js/pages/adminProducts.js
+// Admin products: full CRUD with real-time UI updates.
+import { db } from "../main.js";
 import {
-  app,
-  db,
   collection,
-  getDocs,
-  getDoc,
   doc,
   addDoc,
+  setDoc,
   updateDoc,
   deleteDoc,
+  onSnapshot,
+  getDoc,
+  getDocs,
+  serverTimestamp,
+  query,
+  orderBy,
 } from "../main.js";
-// console.log(app);
+import { qsa } from "../main.js";
+const productsCol = collection(db, "products");
+console.log(productsCol);
+console.log(db);
 
-(function initAdminProducts() {
-  console.log(app);
-  console.log(db);
-})();
+const els = {
+  tbody: document.getElementById("adminProducts"),
+  form: document.getElementById("productForm"),
+  submitBtn: document.querySelector("#productForm button[type='submit']"),
+};
 
-// ---------- Admin Products ----------
-export async function fetchAndRenderData() {
-  // Reference to the "products" collection
-  const productsRef = collection(db, "products");
-
-  try {
-    // Fetch the documents from the "products" collection
-    const snapshot = await getDocs(productsRef);
-    const productList = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    console.log("productList", productList[0]["id"]);
-    // Call the function to render data
-    renderAdminProducts(productList);
-  } catch (error) {
-    console.error("Error fetching documents: ", error);
-  }
-}
-
-function renderAdminProducts(products) {
-  const container = document.getElementById("adminProducts");
-  if (!container) return;
-  container.innerHTML = "";
-  products.forEach((prod) => {
-    console.log("prod", prod);
-
-    const row = document.createElement("tr");
-
-    // Utility function to make a <td> with plain text
-    const makeCell = (text) => {
-      const td = document.createElement("td");
-      td.textContent = text;
-      return td;
-    };
-
-    // Add product info cells
-    row.appendChild(makeCell(prod.id));
-    row.appendChild(makeCell(prod.name));
-    row.appendChild(makeCell(prod.category));
-    row.appendChild(makeCell(`$${prod.price.toFixed(2)}`));
-    row.appendChild(makeCell(prod.stock));
-
-    // Create actions cell
-    const actionsCell = document.createElement("td");
-
-    // Edit button
-    const editBtn = document.createElement("button");
-    editBtn.classList.add("btn", "edit-btn");
-    editBtn.dataset.id = prod.id;
-    editBtn.textContent = "Edit";
-    editBtn.addEventListener("click", () => prefillProductForm(prod.id));
-
-    // Delete button
-    const deleteBtn = document.createElement("button");
-    deleteBtn.classList.add("btn", "btn-outline");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.addEventListener("click", () => deleteProduct(prod.id));
-
-    // Append buttons to actions cell
-    actionsCell.appendChild(editBtn);
-    actionsCell.appendChild(deleteBtn);
-
-    // Add actions cell to the row
-    row.appendChild(actionsCell);
-
-    container.appendChild(row);
+// Populate category <select> used in forms (has class 'category-select')
+async function populateCategorySelects() {
+  const selects = qsa("select.category-select");
+  if (!selects.length) return;
+  const q2 = query(collection(db, "categories"), orderBy("name", "asc"));
+  console.log("q2", q2);
+  const snap = await getDocs(q2);
+  console.log("snap", snap);
+  const options = [
+    `<option value="" disabled selected hidden>Select a category</option>`,
+  ];
+  snap.forEach((doc) => {
+    const { name } = doc.data();
+    options.push(`<option value="${doc.id}">${name}</option>`);
   });
+  const html = options.join("");
+  selects.forEach((sel) => (sel.innerHTML = html));
 }
-async function fetchProductById(productId) {
-  // Reference to the "products" collection
-  console.log("fetchProductById", productId);
-  const productRef = doc(db, "products", productId);
-  const docSnap = await getDoc(productRef);
 
-  if (docSnap.exists()) {
-    console.log("Product data:", { id: docSnap.id, ...docSnap.data() });
-    return { id: docSnap.id, ...docSnap.data() };
-  } else {
-    console.log("No such product!");
-    return null;
-  }
+// Render table rows
+function renderRow(id, data) {
+  const tr = document.createElement("tr");
+  tr.dataset.id = id;
+  tr.innerHTML = `
+    <td>${id}</td>
+    <td>${data.name}</td>
+    <td>${data.categoryName || data.category || ""}</td>
+    <td>${Number(data.price).toFixed(2)}</td>
+    <td>${data.stock ?? 0}</td>
+    <td>
+      <button class="btn btn-outline edit" data-id="${id}">Edit</button>
+      <button class="btn btn-danger delete" data-id="${id}">Delete</button>
+    </td>
+  `;
+  return tr;
 }
-async function updateProduct(id, data) {
-  console.log("updateProduct", id, data);
-  const ref = doc(db, "products", id);
-    await updateDoc(ref, {
-      name: data.name,
-      price: data.price,
-      category: data.category,
-      description: data.description,
-      stock: data.stock,
-      image: data.image,
-    });
-}
-async function deleteProduct(id) {
-  const ref = doc(db, "products", id);
-  await deleteDoc(ref);
-}
+
+// Prefill form
 export async function prefillProductForm(id) {
-  console.log(id);
-  const product = await fetchProductById(id);
-  if (!product) return;
-  console.log("this is the product", product);
-  const form = document.getElementById("productForm");
-  form.productId.value = product.id;
-  form.name.value = product.name;
-  form.price.value = product.price;
-  form.category.value = product.category;
-  form.description.value = product.description;
-  form.stock.value = product.stock;
-  form.image.value = product.image;
-  form.querySelector('button[type="submit"]').textContent = "Update Product";
-  form.querySelector('button[type="submit"]').addEventListener("click", (e) => {
-    // e.preventDefault();
-    updateProduct(product.id, {
-      name: form.name.value.trim(),
-      price: parseFloat(form.price.value),
-      category: form.category.value,
-      description: form.description.value.trim(),
-      stock: parseInt(form.stock.value),
-      image: form.image.value.trim(),
-    });
-    // form.querySelector('button[type="submit"]').textContent = "Update Product";
+  const ref = doc(db, "products", id);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return;
+  const p = snap.data();
+  els.form.productId.value = id;
+  els.form.name.value = p.name || "";
+  els.form.price.value = p.price || 0;
+  els.form.category.value = p.category || "";
+  els.form.description.value = p.description || "";
+  els.form.stock.value = p.stock ?? 0;
+  els.form.image.value = p.image || "";
+  els.submitBtn.textContent = "Save Changes";
+}
+// Attach to window to support inline onclick if any HTML or innerHTML uses it
+window.prefillProductForm = prefillProductForm;
+
+// Submit handler (create or update)
+async function handleSubmit(e) {
+  e.preventDefault();
+  const fd = new FormData(els.form);
+  const id = fd.get("productId");
+  const data = {
+    name: fd.get("name").trim(),
+    price: Number(fd.get("price")),
+    category: fd.get("category"),
+    description: fd.get("description").trim(),
+    stock: Number(fd.get("stock")),
+    image: fd.get("image").trim(),
+    updatedAt: serverTimestamp(),
+  };
+  // Basic validation || !data.category
+  if (!data.name || isNaN(data.price) || isNaN(data.stock)) {
+    alert("Please fill all fields correctly.");
+    return;
+  }
+
+  if (id) {
+    await updateDoc(doc(db, "products", id), data);
+  } else {
+    await addDoc(productsCol, { ...data, createdAt: serverTimestamp() });
+  }
+  // UX
+  els.form.reset();
+
+  els.submitBtn.textContent = "Add Product";
+  els.form.productId.value = "";
+}
+
+function attachTableEvents() {
+  els.tbody.addEventListener("click", async (e) => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+    const id = btn.dataset.id;
+    if (btn.classList.contains("edit")) {
+      prefillProductForm(id);
+    } else if (btn.classList.contains("delete")) {
+      if (confirm("Delete this product?")) {
+        await deleteDoc(doc(db, "products", id));
+      }
+    }
   });
 }
 
-fetchAndRenderData();
-document.addEventListener("DOMContentLoaded", () => {
-  fetchAndRenderData();
-});
+function watchProducts() {
+  const q2 = query(productsCol);
+  return onSnapshot(q2, (snap) => {
+    els.tbody.innerHTML = "";
+    snap.forEach((docu) => {
+      console.log(docu.id, docu.data());
+      const tr = renderRow(docu.id, docu.data());
+      els.tbody.appendChild(tr);
+    });
+  });
+}
+
+export function initAdminProducts() {
+  if (!els.form || !els.tbody) return;
+  els.form.addEventListener("submit", handleSubmit);
+  attachTableEvents();
+  watchProducts();
+  populateCategorySelects();
+}
+
+initAdminProducts();
