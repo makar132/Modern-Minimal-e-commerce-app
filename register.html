@@ -1,17 +1,62 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Register</title>
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
+  <!--<link rel="stylesheet" href="assets/css/base.css">-->
+ <link rel="stylesheet" href="assets\css\pages/login.css">
 </head>
-<body data-page="register">
-  <main class="container stack">
+<body>
+  <header> Minimal Store<button class="Dark-btn ">Dark mode</button></header>
+<div class="container">
+  <div class="Title-Login">
     <h1>Register</h1>
-    <!-- Placeholder page. Implement markup following the guidelines. -->
-  </main>
-  <script type="module" src="assets/js/main.js"></script>
+  </div>
+
+  <form>
+    <div class="Input-Area">
+      <label for="name">Name</label>
+      <input type="text" id="name" placeholder="Your Name" required>
+    </div>
+
+    <div class="Input-Area">
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="you@example.com" required>
+    </div>
+
+    <div class="Input-Area">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Create a password" required>
+    </div>
+
+    <div class="Input-Area">
+      <label for="confirm-password">Confirm Password</label>
+      <input type="password" id="confirm-password" placeholder="Confirm password" required>
+    </div>
+
+    <div class="Input-Area">
+      <label for="role">Role</label>
+      <select id="role" required>
+        <option value="Customer">Customer</option>
+        <option value="Admin">Admin</option>
+      </select>
+    </div>
+
+    <button type="submit" class="login-Btn">Register</button>
+
+    <div class="Register-link">
+      Already have an account? <a
+        href="file:///C:/Users/hy/OneDrive/Desktop/Modern-Minimal-e-commerce-app/login.html">Login</a>
+    </div>
+  </form>
+
+  <div class="footer">
+    © 2025 Minimal Store
+  </div>
+</div>
+<script type="module" src="assets/js/main.js"></script>
 </body>
+
 </html>

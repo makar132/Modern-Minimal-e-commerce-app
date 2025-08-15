@@ -1,17 +1,51 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin • Categories</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin – Categories | Minimal Store</title>
   <link rel="stylesheet" href="../assets/css/base.css">
-  <link rel="stylesheet" href="../assets/css/utilities.css">
 </head>
+
 <body data-page="adminCategories">
-  <main class="container stack">
-    <h1>Admin • Categories</h1>
-    <!-- Placeholder page. Implement markup following the guidelines. -->
+  <nav class="navbar">
+    <!-- Mobile menu toggle; visible on small screens -->
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="left">
+      <a href="../index.html" class="brand">Minimal Store</a>
+      <a href="./products.html">Manage Products</a>
+      <a href="./categories.html">Manage Categories</a>
+      <a href="./orders.html">Manage Orders</a>
+    </div>
+    <div class="right">
+      <button id="modeToggle" class="mode-toggle">Dark Mode</button>
+      <button id="logoutBtn" class="btn btn-outline">Logout</button>
+    </div>
+  </nav>
+  <main>
+    <h2 class="mb-2">Category Management</h2>
+    <table class="mb-3">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="adminCategories"></tbody>
+    </table>
+    <h3 class="mb-1">Add / Edit Category</h3>
+    <form id="categoryForm">
+      <input type="hidden" name="categoryId">
+      <label for="name">Category Name</label>
+      <input type="text" name="name" required>
+      <button type="submit" class="btn mt-2">Add Category</button>
+    </form>
   </main>
-  <script type="module" src="../assets/js/main.js"></script>
+  <footer>
+    &copy; 2025 Minimal Store
+  </footer>
 </body>
+
 </html>
