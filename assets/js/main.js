@@ -1,5 +1,6 @@
-// main.js — entry point (placeholder). Route to page initializers here when implementing.
 
+// main.js — entry point
+// Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import {
   getFirestore,
@@ -16,6 +17,9 @@ import {
   query,
   orderBy,
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyAcictnKPsnIq7Udyiz2XGIuMo72dRdlvU",
   authDomain: "e-commerce-js-app.firebaseapp.com",
@@ -28,11 +32,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// Export the app object for use in other files
-export { app };
 const db = getFirestore(app);
+const auth = getAuth(app);
+
+// Exports
 export {
+  app,
   db,
+  auth,
   collection,
   doc,
   addDoc,
@@ -46,7 +53,9 @@ export {
   query,
   orderBy,
 };
+
 // Basic UI helpers
+
 function qs(sel, root = document) {
   return root.querySelector(sel);
 }
@@ -56,5 +65,14 @@ function qsa(sel, root = document) {
 function setText(el, txt) {
   if (el) el.textContent = txt;
 }
-
 export { qs, qsa, setText };
+
+// Logout functionality
+const logoutBtn = document.getElementById("logout-btn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+  });
+}
+
