@@ -1,24 +1,13 @@
-// adminOrders.js — placeholder
-import {
-  db,
-  collection,
-  doc,
-  addDoc,
-  setDoc,
-  updateDoc,
-  deleteDoc,
-  onSnapshot,
-  getDoc,
-  getDocs,
-  serverTimestamp,
-  query,
-  orderBy,
-} from "../main.js";
+/**
+ * Admin: Orders page
+ *
+ * Review/confirm/reject orders; updates status in Firestore.
+ *
+ */
+
+import { db, collection, doc, updateDoc, onSnapshot, query } from "../main.js";
 import { qsa } from "../main.js";
 const ordersCol = collection(db, "orders");
-console.log(ordersCol);
-console.log(db);
-
 const els = {
   tbody: document.getElementById("adminOrders"),
 };
@@ -29,7 +18,7 @@ function renderOrder(order) {
         <td>${order.customerEmail || order.customerId}</td>
         <td>${order.items?.length || 0}</td>
         <td>${order.total?.toFixed?.(2) ?? ""}</td>
-        <td>${order.status}</td>
+        <td > <span class="badge ${order.status}"> ${order.status}</span> </td>
         <td> ${
           order.status === "pending"
             ? `   <button class="btn confirm" data-id="${order.id}">Confirm</button>
@@ -41,7 +30,6 @@ function renderOrder(order) {
   return tr;
 }
 function attachTableEvents() {
-  console.log("attachTableEvents", qsa(".confirm"));
   els.tbody.addEventListener("click", async (e) => {
     const btn = e.target.closest("button");
     if (!btn) return;
@@ -55,18 +43,15 @@ function attachTableEvents() {
 }
 function watchOrders() {
   const q = query(ordersCol);
-  console.log("orders query", q);
   return onSnapshot(q, (snap) => {
     els.tbody.innerHTML = "";
     snap.forEach((docu) => {
-      console.log(docu.id, docu.data());
       const tr = renderOrder({ id: docu.id, ...docu.data() });
       els.tbody.appendChild(tr);
     });
   });
 }
 export function initAdminOrders() {
-  /* implement page wiring here */
   watchOrders();
   attachTableEvents();
 }

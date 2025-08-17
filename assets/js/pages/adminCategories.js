@@ -1,18 +1,20 @@
-// adminCategories.js — placeholder
+/**
+ * Admin: Categories page
+ *
+ * CRUD operations for product categories with real-time updates.
+ *
+ */
 import {
   db,
   collection,
   doc,
   addDoc,
-  setDoc,
   updateDoc,
   deleteDoc,
   onSnapshot,
   getDoc,
-  getDocs,
   serverTimestamp,
   query,
-  orderBy,
 } from "../main.js";
 import { qs, qsa, setText } from "../main.js";
 const categoriesCol = collection(db, "categories");
@@ -39,7 +41,6 @@ function watchCategories() {
   return onSnapshot(q2, (snap) => {
     els.tbody.innerHTML = "";
     snap.forEach((docu) => {
-      console.log({ id: docu.id, ...docu.data() });
       const tr = renderCategory({ id: docu.id, ...docu.data() });
       els.tbody.appendChild(tr);
     });
@@ -78,16 +79,13 @@ async function handleSubmit(e) {
     updatedAt: serverTimestamp(),
   };
   if (id) {
-    // await deleteDoc(doc(db, "categories", id));
     await updateDoc(doc(db, "categories", id), data);
-    // await setDoc(doc(db, "categories", data.name), {updatedAt: data.updatedAt});
   } else {
     await addDoc(collection(db, "categories"), {
       ...data,
       createdAt: serverTimestamp(),
     });
   }
-  // await setDoc(doc(db, "categories", data.name), { updatedAt: data.updatedAt });
 
   // UX
   els.form.reset();
@@ -101,6 +99,3 @@ export function initAdminCategories() {
   attachTableEvents();
 }
 initAdminCategories();
-
-// import { initAdminCategories } from "./adminCategories.js";
-// initAdminCategories();

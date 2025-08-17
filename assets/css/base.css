@@ -1,5 +1,6 @@
+/* Auto-generated minimal CSS: common styles kept here. */
 /*
- * Global Stylesheet for the Minimal E‑Commerce Template
+ * Global Stylesheet for the Minimal E‑Commerce 
  *
  * This file defines the core styling rules used across all pages in the
  * application. It uses CSS custom properties (variables) to enable
@@ -9,6 +10,7 @@
  */
 
 /* Theme variables for light and dark modes */
+
 :root {
   --bg-color: #f9f9f9;
   --surface-color: #ffffff;
@@ -36,6 +38,7 @@
 }
 
 /* Base reset */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -65,6 +68,7 @@ main {
 }
 
 /* Navigation bar */
+
 .navbar {
   background-color: var(--surface-color);
   border-bottom: 1px solid var(--border-color);
@@ -110,94 +114,6 @@ main {
   border-color: var(--primary-color);
 }
 
-/* Hero section */
-.hero {
-  position: relative;
-  width: 100%;
-  height: 300px;
-  margin-bottom: 2rem;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: var(--surface-color);
-}
-
-.hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.hero .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.6));
-}
-
-.hero .content {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 2rem;
-  color: #fff;
-}
-
-/* Grid for products */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.product-card {
-  background-color: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px var(--shadow-color);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: transform 0.2s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-4px);
-}
-
-.product-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.product-card .card-content {
-  padding: 1rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.product-card .title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.product-card .price {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  margin-bottom: 0.5rem;
-}
-
-.product-card .actions {
-  margin-top: 1rem;
-  display: flex;
-  gap: 0.5rem;
-}
 
 .btn {
   padding: 0.5rem 0.8rem;
@@ -224,15 +140,18 @@ main {
   background-color: var(--primary-color);
   color: #fff;
 }
+
 .btn-danger {
   background-color: var(--danger-color);
   color: #fff;
 }
+
 .btn-danger:hover {
   background-color: var(--danger-hover);
 }
 
 /* Forms */
+
 form {
   background-color: var(--surface-color);
   border: 1px solid var(--border-color);
@@ -274,40 +193,9 @@ form textarea:focus {
   box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
 }
 
-/* Generic form group styling (used on pages like checkout) */
-.form-group {
-  margin-bottom: 1rem;
-  max-width: 500px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.6rem;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
-}
-
-.error {
-  color: #e74c3c;
-  font-size: 0.85rem;
-  margin-bottom: 0.8rem;
-}
 
 /* Tables */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -333,28 +221,9 @@ tr:hover {
   background-color: var(--bg-color);
 }
 
-/* Simple badge for order status */
-.badge {
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  color: #fff;
-}
-
-.badge.pending {
-  background-color: #f1c40f;
-  color: #333;
-}
-
-.badge.confirmed {
-  background-color: #27ae60;
-}
-
-.badge.rejected {
-  background-color: #e74c3c;
-}
 
 /* Utility classes */
+
 .text-center {
   text-align: center;
 }
@@ -392,6 +261,7 @@ tr:hover {
 }
 
 /* Footer */
+
 footer {
   background-color: var(--surface-color);
   border-top: 1px solid var(--border-color);
@@ -402,6 +272,7 @@ footer {
 }
 
 /* Navigation toggle for small screens */
+
 .nav-toggle {
   display: none;
   background: none;
@@ -429,9 +300,8 @@ footer {
  */
 
 /* Medium devices: tablets, small laptops */
-@media (max-width: 1024px) {
 
-  /* Reduce spacing in the navbar and allow wrapping of items */
+@media (max-width: 1024px) {
   .navbar {
     flex-wrap: wrap;
     padding: 0.8rem 1rem;
@@ -450,39 +320,17 @@ footer {
   main {
     padding: 1.5rem 1rem;
   }
-
-  /* Slightly shorten hero on medium screens */
-  .hero {
-    height: 250px;
-  }
-
-  /* Stack product detail layout vertically */
-  #productDetail {
-    flex-direction: column;
-  }
-
-  #productDetail img {
-    max-width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  /* Make sure product grid doesn’t cram too many cards */
-  .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
 }
 
 /* Small devices: phones */
-@media (max-width: 600px) {
 
-  /* Navbar: show the hamburger button and hide links by default */
+@media (max-width: 600px) {
   .navbar {
     flex-direction: row;
     align-items: center;
     padding: 0.8rem 1rem;
   }
 
-  /* Hide all navigation links except the brand and show only when menu is open */
   .navbar .left a:not(.brand),
   .navbar .right {
     display: none;
@@ -493,7 +341,6 @@ footer {
     display: flex;
   }
 
-  /* Stack links vertically when menu is open */
   .navbar.open .left a:not(.brand) {
     margin-bottom: 0.5rem;
   }
@@ -505,28 +352,15 @@ footer {
     margin-top: 0.5rem;
   }
 
-  /* Always show the brand */
   .navbar .left a.brand {
     margin-right: auto;
   }
 
-  /* Spacing for dark mode / logout buttons when stacked */
   .navbar.open .mode-toggle,
   .navbar.open .btn.btn-outline {
     margin-bottom: 0.5rem;
   }
 
-  /* Compress hero height for small screens */
-  .hero {
-    height: 180px;
-  }
-
-  /* Product grid becomes a single column */
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* Tables should scroll horizontally instead of overflowing */
   table {
     display: block;
     width: 100%;
@@ -534,20 +368,17 @@ footer {
     white-space: nowrap;
   }
 
-  /* Reduce form padding further */
   form {
     padding: 1rem;
     width: 100%;
   }
 
-  /* Ensure form elements fill the available width */
   form input,
   form select,
   form textarea {
     font-size: 1rem;
   }
 
-  /* Adjust margin utilities for tighter spacing on small screens */
   .mt-2 {
     margin-top: 0.8rem;
   }
@@ -572,9 +403,15 @@ footer {
     margin-bottom: 1.5rem;
   }
 
-  /* Show the hamburger button on small screens */
   .nav-toggle {
     display: block;
     margin-right: 1rem;
   }
+}
+
+/* --- Accessibility additions (refactor) --- */
+
+:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
 }

@@ -6,6 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin – Products | Minimal Store</title>
   <link rel="stylesheet" href="../assets/css/base.css">
+  <style>
+    /* prevent flash before guard resolves */
+    html:not(.admin-ok) body {
+      visibility: hidden;
+    }
+  </style>
+
 </head>
 
 <body data-page="adminProducts">
@@ -61,8 +68,9 @@
     &copy; 2025 Minimal Store
   </footer>
   <script type="module" src="../assets/js/main.js"></script> <!-- Firebase Initialization -->
-  <script type="module" src="../assets/js/pages/adminProducts.js">
-  </script>
+  <script type="module" src="../assets/js/pages/adminProducts.js"></script>
+  <script type="module" src="../assets/js/utils/admin-guard.js"></script>
+
 </body>
 
 </html>
