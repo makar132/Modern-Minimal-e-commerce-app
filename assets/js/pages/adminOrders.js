@@ -30,13 +30,13 @@ function renderOrder(order) {
         <td>${order.items?.length || 0}</td>
         <td>${order.total?.toFixed?.(2) ?? ""}</td>
         <td>${order.status}</td>
-        <td>
-          <button class="btn confirm" data-id="${order.id}" ${
-    order.status !== "pending" ? "disabled" : ""
-  }>Confirm</button>
-          <button class="btn btn-outline reject" data-id="${order.id}" ${
-    order.status !== "pending" ? "disabled" : ""
-  }>Reject</button>
+        <td> ${
+          order.status === "pending"
+            ? `   <button class="btn confirm" data-id="${order.id}">Confirm</button>
+          <button class="btn btn-outline reject" data-id="${order.id}" >Reject</button>
+       `
+            : ""
+        }
         </td>`;
   return tr;
 }

@@ -66,7 +66,6 @@ export async function prefillCategoryForm(id) {
   const p = snap.data();
   els.form.categoryId.value = id;
   els.form.name.value = p.name || "";
-  //   els.submitBtn.textContent = "Update Category";
   setText(els.submitBtn, "Update Category");
 }
 window.prefillCategoryForm = prefillCategoryForm;
@@ -79,10 +78,17 @@ async function handleSubmit(e) {
     updatedAt: serverTimestamp(),
   };
   if (id) {
+    // await deleteDoc(doc(db, "categories", id));
     await updateDoc(doc(db, "categories", id), data);
+    // await setDoc(doc(db, "categories", data.name), {updatedAt: data.updatedAt});
   } else {
-    await addDoc(categoriesCol, { ...data, createdAt: serverTimestamp() });
+    await addDoc(collection(db, "categories"), {
+      ...data,
+      createdAt: serverTimestamp(),
+    });
   }
+  // await setDoc(doc(db, "categories", data.name), { updatedAt: data.updatedAt });
+
   // UX
   els.form.reset();
   els.submitBtn.textContent = "Add Category";
@@ -95,3 +101,6 @@ export function initAdminCategories() {
   attachTableEvents();
 }
 initAdminCategories();
+
+// import { initAdminCategories } from "./adminCategories.js";
+// initAdminCategories();
