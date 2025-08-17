@@ -1,17 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Product Details</title>
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Product</title>
+  <link rel="stylesheet" href="css/product.css">
 </head>
-<body data-page="product">
-  <main class="container stack">
-    <h1>Product Details</h1>
-    <!-- Placeholder page. Implement markup following the guidelines. -->
+<body>
+  <!-- Header -->
+  <header>
+    <button class="menu-btn">☰</button>
+    <nav>
+      <ul>
+        <li><a href="#">Minimal Store</a></li>
+        <li><a href="#">Cart</a></li>
+        <li><a href="#">Wishlist</a></li>
+        <li><a href="#">My Orders</a></li>
+      </ul>
+    </nav>
+    <div class="nav-buttons">
+      <button id="darkModeBtn">Dark Mode</button>
+      <button>Logout</button>
+    </div>
+  </header>
+
+  <!-- Main Product Section -->
+  <main>
+    <img id="product-img" src="" alt="Product Image" class="product-img" width="250">
+    <div class="product-details">
+      <h2 id="product-title"></h2>
+      <p id="product-category"></p>
+      <p class="price" id="product-price"></p>
+      <p id="product-description"></p>
+      <button id="AddCartBtn">Add to Cart</button>
+      <button id="WishlistBtn">Wishlist</button>
+    </div>
   </main>
-  <script type="module" src="assets/js/main.js"></script>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Minimal Store
+  </footer>
+
+  <script src="js/product.js" type="module"></script>
 </body>
 </html>
+

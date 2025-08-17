@@ -1,27 +1,88 @@
-<!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Home</title>
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce</title>
+    <link rel="stylesheet" href="css/index.css">   
+
 </head>
+<body>
+    <header>
+            <button class="menu-btn">☰</button>
+    <nav>
+        <ul>
+            <li><a href="#" >Minimal Store</a></li>
+            <li><a href="#" >Cart</a></li>
+            <li><a href="#" >Wishlist</a></li>
+            <li><a href="#" >My Orders</a></li>
+        </ul>
+        <div class="buttons">
+            <button id="darkModeBtn">Dark Mode</button>
+            <button>Logout</button>
+        </div>
+    </nav>
+</header>
 
-<body data-page="home">
-  <main class="container stack">
-    <h1>Home</h1>
+<main>
+    <section class="backgroundImgAfterNavbar" >
+       
+    </section>
 
+    <section class="products" >
+        <h2 >Products</h2>
+        <div class="filter" id="driopdown">
+            <label for="category">Filter by Category:</label>
+            <select id="category" name="category" class="filter-select">
+                <option>All Categories</option>
+                <option>Electronics</option>
+                <option>Accessories</option>
+                <option>Home</option>
+            </select>
+        </div>
 
+        <div class="product-list" >
+            <article class="card" id="productCard" >
+                <img src="images/headphone.webp" alt="headphone">
+                <h3>Smartphone</h3>
+                <p class="price">$499.99</p>
+                <p>A sleek smartphone with the latest features.</p>
+                <button>Add to Cart</button>
+                <button>Wishlist</button>
+            </article>
 
-    <button id="logout-btn">Logout</button>
-    <!-- Placeholder page. Implement markup following the guidelines. -->
-  </main>
+            <article class="card" tabindex="0">
+                <img src="images/laptob.webp" alt="laptob">
+                <h3>Wireless Headphones</h3>
+                <p class="price">$149.99</p>
+                <p>Experience high-fidelity sound without wires.</p>
+                <button>Add to Cart</button>
+                <button>Wishlist</button>
+            </article>
 
-  <script type="module" src="assets/js/main.js"></script>
-  <script type="module" src="assets\js\pages/login.js"></script>
+            <article class="card" tabindex="0">
+                <img src="images/cup.webp" alt="cup">
+                <h3>Reusable Water Bottle</h3>
+                <p class="price">$24.99</p>
+                <p>Stay hydrated with this minimal reusable bottle.</p>
+                <button>Add to Cart</button>
+                <button>Wishlist</button>
+            </article>
 
-  
+            <article class="card" tabindex="0">
+                <img src="images/headphone.webp" alt="headphone">
+                <h3>Laptop</h3>
+                <p class="price">$899.99</p>
+                <p>A powerful yet lightweight laptop for everyday use.</p>
+                <button>Add to Cart</button>
+                <button>Wishlist</button>
+            </article>
+        </div>
+    </section>
+</main>
+
+<footer>
+    © 2025 Minimal Store. All rights reserved.
+</footer> 
+  <script src="js/index.js" type="module"></script>
 </body>
 </html>
