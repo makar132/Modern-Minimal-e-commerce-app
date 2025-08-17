@@ -28,9 +28,10 @@ const els = {
 
 // Populate category <select> used in forms (has class 'category-select')
 async function populateCategorySelects() {
+  console.log("populateCategorySelects");
   const selects = qsa("select.category-select");
   if (!selects.length) return;
-  const q2 = query(collection(db, "categories"), orderBy("name", "asc"));
+  const q2 = query(collection(db, "categories"), orderBy("updatedAt", "asc"));
   console.log("q2", q2);
   const snap = await getDocs(q2);
   console.log("snap", snap);
@@ -38,8 +39,7 @@ async function populateCategorySelects() {
     `<option value="" disabled selected hidden>Select a category</option>`,
   ];
   snap.forEach((doc) => {
-    const { name } = doc.data();
-    options.push(`<option value="${doc.id}">${name}</option>`);
+    options.push(`<option value="${doc.id}">${doc.data().name}</option>`);
   });
   const html = options.join("");
   selects.forEach((sel) => (sel.innerHTML = html));
@@ -53,7 +53,9 @@ function renderRow(id, data) {
   tr.innerHTML = `
     <td>${id}</td>
     <td>${data.name}</td>
-    <td>${data.category.name || data.category.id || ""}</td>
+    <td class="category" data-category-id="${data.category}"><${
+    data.category
+  }</td>
     <td>${Number(data.price).toFixed(2)}</td>
     <td>${data.stock ?? 0}</td>
     <td>
@@ -63,13 +65,7 @@ function renderRow(id, data) {
   `;
   return tr;
 }
-async function getCategoryName(id) {
-  console.log("getCategoryName", id);
-  const ref = doc(db, "categories", id);
-  const snap = await getDoc(ref);
-  if (!snap.exists()) return;
-  return snap.data().name;
-}
+
 // Prefill form
 export async function prefillProductForm(id) {
   const ref = doc(db, "products", id);
@@ -79,7 +75,7 @@ export async function prefillProductForm(id) {
   els.form.productId.value = id;
   els.form.name.value = p.name || "";
   els.form.price.value = p.price || 0;
-  els.form.category.value = p.category.id || "";
+  els.form.category.value = p.category || "";
   els.form.description.value = p.description || "";
   els.form.stock.value = p.stock ?? 0;
   els.form.image.value = p.image || "";
@@ -96,10 +92,7 @@ async function handleSubmit(e) {
   const data = {
     name: fd.get("name").trim(),
     price: Number(fd.get("price")),
-    category: {
-      id: fd.get("category"),
-      name: await getCategoryName(fd.get("category")),
-    },
+    category: fd.get("category"),
     description: fd.get("description").trim(),
     stock: Number(fd.get("stock")),
     image: fd.get("image").trim(),
@@ -147,15 +140,31 @@ function watchProducts() {
       const tr = renderRow(docu.id, docu.data());
       els.tbody.appendChild(tr);
     });
+    resolveCategorys();
+  });
+}
+
+async function resolveCategorys() {
+  const q2 = query(collection(db, "categories"), orderBy("updatedAt", "asc"));
+  const snap = await getDocs(q2);
+  snap.forEach((doc) => {
+    console.log("doc", doc.id);
+    const el = document.querySelector(
+      `.category[data-category-id="${doc.id}"]`
+    );
+    console.log("el", el);
+    if (!el) return;
+    el.textContent = doc.data().name;
   });
 }
 
 export function initAdminProducts() {
   if (!els.form || !els.tbody) return;
   els.form.addEventListener("submit", handleSubmit);
-  watchProducts();
-  attachTableEvents();
   populateCategorySelects();
+  watchProducts();
+
+  attachTableEvents();
 }
 
 initAdminProducts();
