@@ -6,6 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin – Orders | Minimal Store</title>
   <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/pages/admin-orders.css">
+  <style>
+    /* prevent flash before guard resolves */
+    html:not(.admin-ok) body {
+      visibility: hidden;
+    }
+  </style>
+
 </head>
 
 <body data-page="adminOrders">
@@ -25,14 +33,16 @@
   </nav>
   <main>
     <h2 class="mb-2">Order Management</h2>
-    <table>
+    <table aria-describedby="orders-table-caption" class="mb-1">
+      <caption id="orders-table-caption" class="text-center mb-1">Orders</caption>
       <thead>
         <tr>
-          <th>Order ID</th>
-          <th>Items</th>
-          <th>User ID</th>
-          <th>Status</th>
-          <th>Action</th>
+          <th scope="col">Order ID</th>
+          <th scope="col">Customer</th>
+          <th scope="col">Items</th>
+          <th scope="col">Total</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody id="adminOrders"></tbody>
@@ -43,6 +53,8 @@
   </footer>
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/pages/adminOrders.js"></script>
+  <script type="module" src="../assets/js/utils/admin-guard.js"></script>
+
 </body>
 
 </html>

@@ -1,11 +1,15 @@
-// assets/js/pages/adminProducts.js
+/**
+ * Admin: Products page
+ *
+ * CRUD operations for products; syncs with categories list.
+ *
+ */
 // Admin products: full CRUD with real-time UI updates.
 import {
   db,
   collection,
   doc,
   addDoc,
-  setDoc,
   updateDoc,
   deleteDoc,
   onSnapshot,
@@ -17,9 +21,6 @@ import {
 } from "../main.js";
 import { qsa } from "../main.js";
 const productsCol = collection(db, "products");
-console.log(productsCol);
-console.log(db);
-
 const els = {
   tbody: document.getElementById("adminProducts"),
   form: document.getElementById("productForm"),
@@ -28,13 +29,10 @@ const els = {
 
 // Populate category <select> used in forms (has class 'category-select')
 async function populateCategorySelects() {
-  console.log("populateCategorySelects");
   const selects = qsa("select.category-select");
   if (!selects.length) return;
   const q2 = query(collection(db, "categories"), orderBy("updatedAt", "asc"));
-  console.log("q2", q2);
   const snap = await getDocs(q2);
-  console.log("snap", snap);
   const options = [
     `<option value="" disabled selected hidden>Select a category</option>`,
   ];
@@ -47,7 +45,6 @@ async function populateCategorySelects() {
 
 // Render table rows
 function renderRow(id, data) {
-  console.log("renderRow", id, data);
   const tr = document.createElement("tr");
   tr.dataset.id = id;
   tr.innerHTML = `
@@ -111,7 +108,6 @@ async function handleSubmit(e) {
   }
   // UX
   els.form.reset();
-
   els.submitBtn.textContent = "Add Product";
   els.form.productId.value = "";
 }
@@ -136,7 +132,6 @@ function watchProducts() {
   return onSnapshot(q2, (snap) => {
     els.tbody.innerHTML = "";
     snap.forEach((docu) => {
-      console.log(docu.id, docu.data());
       const tr = renderRow(docu.id, docu.data());
       els.tbody.appendChild(tr);
     });
@@ -148,11 +143,9 @@ async function resolveCategorys() {
   const q2 = query(collection(db, "categories"), orderBy("updatedAt", "asc"));
   const snap = await getDocs(q2);
   snap.forEach((doc) => {
-    console.log("doc", doc.id);
     const el = document.querySelector(
       `.category[data-category-id="${doc.id}"]`
     );
-    console.log("el", el);
     if (!el) return;
     el.textContent = doc.data().name;
   });
@@ -163,7 +156,6 @@ export function initAdminProducts() {
   els.form.addEventListener("submit", handleSubmit);
   populateCategorySelects();
   watchProducts();
-
   attachTableEvents();
 }
 

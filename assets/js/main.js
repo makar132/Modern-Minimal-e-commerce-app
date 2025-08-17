@@ -1,4 +1,9 @@
-
+/**
+ * Main module (bootstrap, Firebase, shared UI)
+ *
+ * Initializes Firebase, exports shared helpers, and wires up global UI bits (theme/nav/logout).
+ *
+ */
 // main.js — entry point
 // Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
@@ -17,7 +22,10 @@ import {
   query,
   orderBy,
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -40,6 +48,7 @@ export {
   app,
   db,
   auth,
+  onAuthStateChanged,
   collection,
   doc,
   addDoc,
@@ -54,6 +63,22 @@ export {
   orderBy,
 };
 
+// Logout functionality
+const LOGOUT_URL = new URL("/Modern-Minimal-e-commerce-app/", location.origin);
+const logoutBtn =
+  document.getElementById("logout-btn") || document.getElementById("logoutBtn");
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    // Clear any client-side auth markers and send user to login
+    try {
+      localStorage.removeItem("user");
+    } catch (_) {}
+    window.location.href = LOGOUT_URL.href;
+  });
+}
+
+// --- Utilities & UI behaviors (added in refactor) ---
+
 // Basic UI helpers
 
 function qs(sel, root = document) {
@@ -67,12 +92,39 @@ function setText(el, txt) {
 }
 export { qs, qsa, setText };
 
-// Logout functionality
-const logoutBtn = document.getElementById("logout-btn");
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("user");
-    window.location.href = "login.html";
-  });
-}
+// Dark mode toggle: persists preference.
+(function setupThemeToggle() {
+  const btn = document.getElementById("modeToggle");
+  const root = document.body;
+  const STORAGE_KEY = "theme";
+  // Apply persisted theme on load
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "dark") root.classList.add("dark");
+  } catch (_) {}
 
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const isDark = root.classList.toggle("dark");
+      try {
+        localStorage.setItem(STORAGE_KEY, isDark ? "dark" : "light");
+      } catch (_) {}
+      btn.textContent = isDark ? "Light Mode" : "Dark Mode";
+    });
+    // Initialize button label
+    btn.textContent = root.classList.contains("dark")
+      ? "Light Mode"
+      : "Dark Mode";
+  }
+})();
+
+// Mobile nav toggle: toggles `.open` on the navbar
+(function setupNavToggle() {
+  const toggle = document.querySelector(".nav-toggle");
+  const navbar = document.querySelector(".navbar");
+  if (toggle && navbar) {
+    toggle.addEventListener("click", () => {
+      navbar.classList.toggle("open");
+    });
+  }
+})();

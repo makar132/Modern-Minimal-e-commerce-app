@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin – Categories | Minimal Store</title>
   <link rel="stylesheet" href="../assets/css/base.css">
+  <style>
+    /* prevent flash before guard resolves */
+    html:not(.admin-ok) body {
+      visibility: hidden;
+    }
+  </style>
 </head>
 
 <body data-page="adminCategories">
@@ -48,6 +54,8 @@
   </footer>
   <script type="module" src="../assets/js/main.js"></script>
   <script type="module" src="../assets/js/pages/adminCategories.js"></script>
+  <script type="module" src="../assets/js/utils/admin-guard.js"></script>
+
 </body>
 
 </html>
