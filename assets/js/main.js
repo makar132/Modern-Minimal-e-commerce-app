@@ -52,7 +52,7 @@ export {
   orderBy,
 };
 
-// UI helpers
+
 function qs(sel, root = document) {
   return root.querySelector(sel);
 }
