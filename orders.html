@@ -18,16 +18,18 @@
 
     <nav class="nav-links" id="navMenu">
       <div class="nav-left">
-        <a href="#">Minimal Store</a>
-        <a href="#">Cart</a>
-        <a href="#">Wishlist</a>
-        <a href="#">My Orders</a>
+        <a href="index.html">Minimal Store</a>
+        <a href="cart.html">Cart</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="orders.html">My Orders</a>
       </div>
       <div class="nav-right">
-        <button class="btn1">Dark Mode</button>
-        <button class="btn">Login</button>
-        <button class="btn">Register</button>
-        <button class="btn" id="logoutBtn">Logout</button>
+           <button class="btn1" id="dark-mode-toggle">Dark Mode</button>
+        <button class="login-Btn" type="button" onclick="window.location.href='login.html'">Login</button>
+
+      <button class="btn-register" type="button" onclick="window.location.href='register.html'">Register</button>
+
+        <button class="btn-logout" type="button" onclick="window.location.href='register.html'">logout</button>
       </div>
     </nav>
   </header>
@@ -44,31 +46,7 @@
             <th>Date</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>ord1755032883620</td>
-            <td>Laptop x2, Reusable Water Bottle x1, Wireless Headphones x1</td>
-            <td><button class="butt pend">pending</button></td>
-            <td>8/13/2025, 12:08:03 AM</td>
-          </tr>
-          <tr>
-            <td>ord1755033603318</td>
-            <td>Wireless Headphones x1, Reusable Water Bottle x1</td>
-            <td><button class="butt conf">confirmed</button></td>
-            <td>8/13/2025, 12:20:03 AM</td>
-          </tr>
-          <tr>
-            <td>ord1755033646743</td>
-            <td>Smartphone x1</td>
-            <td><button class="butt rej">rejected</button></td>
-            <td>8/13/2025, 12:20:46 AM</td>
-          </tr>
-          <tr>
-            <td>ord17550349</td>
-            <td>Smartphone x1, Reusable Water Bottle x1</td>
-            <td><button class="butt pend">pending</button></td>
-            <td>8/13/2025, 12:42:28 AM</td>
-          </tr>
+        <tbody id="ordersTable">
         </tbody>
       </table>
     </div>
@@ -83,6 +61,29 @@
       nav.classList.toggle('show');
     }
   </script>
+
+
+
+  <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/pages/orders.js"></script>
+
+
+  <!-- // Dark mode toggle -->
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleBtn = document.getElementById("dark-mode-toggle");
+
+  toggleBtn.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+
+    if (document.body.classList.contains("dark-mode")) {
+      toggleBtn.textContent = "Light";
+    } else {
+      toggleBtn.textContent = "Dark";
+    }
+  });
+});
+</script>
 
 </body>
 

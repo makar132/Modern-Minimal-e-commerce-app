@@ -1,1 +1,164 @@
-/* cart.css — placeholder page styles following tokens/utilities. */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: black;
+    font-size: 15px;
+}
+
+.navbar a:hover {
+    color: #007acc;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+
+
+.btn {
+    border: 1px solid #007acc;
+    background: white;
+    color: #007acc;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #005da3;
+    color: white;
+}
+
+.theme-btn {
+    cursor: pointer;
+    background: none;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 6px 12px;
+    color: #222222;
+}
+
+.theme-btn:hover {
+    background-color: #007acc;
+    color: #fff;
+    border-color: #007acc;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 30px auto;
+    padding: 0 20px;
+    flex: 1;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f5f5f5;
+}
+
+table input{
+    width: 50px;
+}
+
+.remove-btn {
+    border: 1px solid #007acc;
+    color: #007acc;
+    background: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background: #005da3;
+    color: white;
+}
+
+.total {
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.colored-btn {
+    background: #007acc;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: 10px;
+    float: right;
+}
+
+.colored-btn:hover {
+    background: #005da3;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    font-size: 14px;
+    color: gray;
+    background: white;
+    border-top: 1px solid #ddd;
+}
+
+
+@media (max-width: 768px) {
+    .nav-links {
+        position: fixed;
+    }
+    .table-container{
+        overflow-x: auto;
+    }
+    }
