@@ -62,9 +62,9 @@ function generateCartItems(cartItems) {
         </thead>
         <tbody>${rowsHTML}</tbody>
       </table>
+    </div>
       <div class="total">Total:$${subtotal}</div>
       <a  class="colored-btn">Proceed to checkout</a>
-    </div>
   `;
   document.querySelector(".container").innerHTML = tableHTML;
   attachCartEvents();

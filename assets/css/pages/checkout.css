@@ -26,12 +26,30 @@
 
 @media (max-width: 768px) {
     .nav-links {
+        display: none;
+        flex-direction: column;
+        background: white;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        border-top: 1px solid #ddd;
+        padding: 10px 0;
+        text-align: center;
+    }
+
+    .nav-links.show {
         display: flex;
-        position: fixed;
+    }
+
+    .burger {
+        display: flex;
     }
 
     .table-container {
         overflow-x: auto;
     }
-    
+    .table-container table{
+        min-width: 780px
+    }
 }
