@@ -1,4 +1,4 @@
-import { auth, db, setDoc, doc, serverTimestamp } from "./main.js";
+import { auth, db, setDoc, doc, serverTimestamp } from "../main.js";
 import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const form = document.querySelector("form");
