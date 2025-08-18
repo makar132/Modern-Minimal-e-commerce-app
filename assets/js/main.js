@@ -66,7 +66,7 @@ export {
 // Logout functionality
 const LOGOUT_URL = new URL("/Modern-Minimal-e-commerce-app/", location.origin);
 const logoutBtn =
-  document.getElementById("logout-btn") || document.getElementById("logoutBtn");
+  document.getElementById("logoutBtn");
 if (logoutBtn) {
   logoutBtn.addEventListener("click", () => {
     // Clear any client-side auth markers and send user to login
