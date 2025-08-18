@@ -9,7 +9,7 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) return goto("login.html");
 
   // Check role from Firestore
-  const snap = await getDoc(doc(db, "Users", user.uid));
+  const snap = await getDoc(doc(db, "users", user.uid));
   const role = snap.exists() ? snap.data().Role : null;
   if (role === "Admin") {
     document.documentElement.classList.add("admin-ok");
