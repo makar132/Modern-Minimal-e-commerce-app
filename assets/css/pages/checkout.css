@@ -1,1 +1,37 @@
-/* checkout.css — placeholder page styles following tokens/utilities. */
+.form-item {
+    margin-bottom: 1rem;
+    max-width: 500px;
+}
+
+.form-item label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-item input {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #222222;
+}
+
+.form-item input:focus {
+    outline: none;
+    border-color: #007acc;
+    box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: flex;
+        position: fixed;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+    
+}

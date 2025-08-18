@@ -4,14 +4,32 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cart</title>
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
+  <link rel="stylesheet" href="assets/css/pages/cart.css">
 </head>
-<body data-page="cart">
-  <main class="container stack">
-    <h1>Cart</h1>
-    <!-- Placeholder page. Implement markup following the guidelines. -->
-  </main>
+<body>
+  <nav class="navbar">
+    <div class="nav-links">
+        <a href="index.html">Minimal Store</a>
+        <a href="cart.html">Cart</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="orders.html">My Orders</a>
+    </div>
+    <div class="nav-buttons">
+        <button class="theme-btn" >Dark Mode</button>
+        <button class="btn" onclick="window.location.href = 'login.html'">Login</button>
+        <button class="btn" onclick="window.location.href = 'register.html'">Register</button>
+        <button class="btn" >Logout</button>
+      </div>
+  </nav>
+
+<div class="container">
+    <h2>Shopping Cart</h2>
+    
+</div>
+<footer>
+    &copy; 2025 Minimal Store
+</footer>
   <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="assets/js/pages/cart.js"></script>
 </body>
 </html>
