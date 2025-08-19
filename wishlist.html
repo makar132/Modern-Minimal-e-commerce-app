@@ -1,32 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wish List</title>
-  <link rel="stylesheet" href="assets/css/pages/wishlist.css">
+  <link rel="stylesheet" href="assets/css/pages/wishlist.css" />
 </head>
-
 <body>
   <header class="navbar">
     <button class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
     <nav class="nav-links" id="navMenu">
       <div class="nav-left">
-        <a href="#">Minimal Store</a>
-        <a href="#">Cart</a>
-        <a href="#">Wishlist</a>
-        <a href="#">My Orders</a>
+        <a href="index.html">Minimal Store</a>
+        <a href="cart.html">Cart</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="orders.html">My Orders</a>
       </div>
       <div class="nav-right">
-        <button class="btn1">Dark Mode</button>
-        <button class="btn">Login</button>
-        <button class="btn">Register</button>
-        <button class="btn" id="logoutBtn">Logout</button>
+        <button class="btn1" id="dark-mode-toggle">Dark Mode</button>
+        <button class="login-Btn" type="button" onclick="window.location.href='login.html'">Login</button>
+
+      <button class="btn-register" type="button" onclick="window.location.href='register.html'">Register</button>
+
+        <button class="btn-logout" type="button" onclick="window.location.href='register.html'">logout</button>
       </div>
     </nav>
   </header>
@@ -42,23 +40,8 @@
             <th colspan="2">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Smartphone</td>
-            <td>$499.99</td>
-            <td class="action_Buttons">
-              <button class="btn addBut">Add to cart</button>
-              <button class="btn">Remove</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Wireless Headphones</td>
-            <td>$149.99</td>
-            <td class="action_Buttons">
-              <button class="btn addBut">Add to cart</button>
-              <button class="btn">Remove</button>
-            </td>
-          </tr>
+        <tbody id="wishlist-body">
+          <!-- Wishlist items will be loaded here -->
         </tbody>
       </table>
     </div>
@@ -67,12 +50,91 @@
   <footer>© 2025 Minimal Store</footer>
   <script type="module" src="assets/js/main.js"></script>
 
+  <!-- Firebase Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAcictnKPsnIq7Udyiz2XGIuMo72dRdlvU",
+      authDomain: "e-commerce-js-app.firebaseapp.com",
+      projectId: "e-commerce-js-app",
+      storageBucket: "e-commerce-js-app.appspot.com",
+      messagingSenderId: "383942089852",
+      appId: "1:383942089852:web:99224fda7fd586e7cafdf9",
+      measurementId: "G-TV0G1TS360",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const tbody = document.getElementById("wishlist-body");
+
+    if (!user) {
+      alert("يرجى تسجيل الدخول لعرض المفضلة.");
+    } else {
+      const wishlistRef = collection(db, "users", user.uid, "whishlist");
+      const loadWishlist = async () => {
+        tbody.innerHTML = "";
+        const snapshot = await getDocs(wishlistRef);
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          const row = `
+            <tr>
+              <td>${data.name}</td>
+              <td>$${data.price}</td>
+              <td class="action_Buttons">
+                <button class="btn addBut" onclick="addToCart('${docSnap.id}', '${data.name}', ${data.price}, '${data.imageUrl}')">Add to cart</button>
+                <button class="btn" onclick="removeFromWishlist('${docSnap.id}')">Remove</button>
+              </td>
+            </tr>
+          `;
+          tbody.innerHTML += row;
+        });
+      };
+
+      window.addToCart = async (productId, name, price, imageUrl) => {
+        const cartRef = doc(db, "users", user.uid, "cart", productId);
+        await setDoc(cartRef, {
+          productId,
+          name,
+          price,
+          imageUrl,
+          quantity: 1,
+          createdAt: new Date()
+        });
+        alert(`${name} تمت إضافته إلى السلة`);
+      };
+
+      window.removeFromWishlist = async (productId) => {
+        await deleteDoc(doc(db, "users", user.uid, "whishlist", productId));
+        alert("تم الحذف من المفضلة");
+        loadWishlist();
+      };
+
+      loadWishlist();
+    }
+  </script>
+
+  <!-- Other Scripts -->
   <script>
     function toggleMenu() {
       const nav = document.getElementById('navMenu');
       nav.classList.toggle('show');
     }
-  </script>
-</body>
 
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBtn = document.getElementById("dark-mode-toggle");
+
+      toggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        toggleBtn.textContent = document.body.classList.contains("dark-mode") ? "Light" : "Dark";
+      });
+    });
+
+  </script>
+    <script type="module" src="assets/js/main.js"></script>
+    <script type="module" src="assets/js/pages/"></script>
+</body>
 </html>
