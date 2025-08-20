@@ -128,7 +128,7 @@ function createProductCard(p) {
   img.alt = p.name || "Product";
   img.loading = "lazy";
 
-  const badge = createBadge(p.category);
+  const badge = createBadge(catigoriesMap.get(p.category)|| "Uncategorized");
   media.append(img, badge);
 
   // Content
@@ -237,6 +237,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     const products = await fetchProducts();
     const categories = await fetchCategories();
+    window.catigoriesMap = new Map(categories.map((c) => [c.id, c.name]));
+    console.log(catigoriesMap);
     console.log("[index] Fetched products:", products);
     console.log("[index] Fetched categories:", categories);
     populateCategorySelect(select, categories);

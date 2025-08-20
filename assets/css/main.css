@@ -209,7 +209,7 @@ main {
 }
 
 /* Category badge (generic, no hardcoded names) */
-/* .badge {
+ .badge {
     position: absolute;
     top: .75rem;
     left: .75rem;
@@ -218,10 +218,15 @@ main {
     line-height: 1;
     border-radius: 999px;
     color: var(--text-color);
-    background: color-mix(in oklab, var(--text-color) 8%, transparent);
+    /* background: color-mix(in oklab, var(--surface-color) 8%, transparent); */
+    background-color: var(--surface-color);
     border: 1px solid color-mix(in oklab, var(--text-color) 18%, transparent);
     backdrop-filter: blur(2px);
-} */
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    -ms-border-radius: 999px;
+    -o-border-radius: 999px;
+}
 
 /* Content */
 .product-card .card-content {
@@ -407,26 +412,6 @@ tr:hover {
     background-color: var(--bg-color);
 }
 
-/* Simple badge for order status */
-/* .badge {
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    color: #fff;
-}
-
-.badge.pending {
-    background-color: #f1c40f;
-    color: #333;
-}
-
-.badge.confirmed {
-    background-color: #27ae60;
-}
-
-.badge.rejected {
-    background-color: #e74c3c;
-} */
 
 /* Utility classes */
 .text-center {

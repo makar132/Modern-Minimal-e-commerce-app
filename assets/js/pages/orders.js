@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tr.innerHTML = `
         <td>${docSnap.id}</td>
         <td>${itemsText}</td>
-        <td> <span class="badge ${order.status}"> ${order.status}</span> </td>
+        <td> <span class="orders-badge ${order.status}"> ${order.status}</span> </td>
         <td>${date}</td>
       `;
       tableBody.appendChild(tr);
