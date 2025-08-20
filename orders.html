@@ -5,39 +5,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Orders</title>
+  <link rel="stylesheet" href="assets/css/main.css">
   <link rel="stylesheet" href="assets/css/pages/orders.css">
 </head>
 
 <body>
-  <header class="navbar">
-    <button class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  <nav class="navbar">
+    <!-- Mobile menu toggle; visible on small screens -->
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="left">
+      <a href="index.html" class="brand">Minimal Store</a>
+      <a href="cart.html">Cart</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="orders.html">My Orders</a>
+    </div>
+    <div class="right">
+      <button id="modeToggle" class="mode-toggle">Dark Mode</button>
+      <span id="authLinks">
+        <a href="login.html">Login</a> /
+        <a href="register.html">Register</a>
+      </span>
+      <button id="logoutBtn" class="btn btn-outline" style="display:none;">Logout</button>
+    </div>
+  </nav>
+  <main>
 
-    <nav class="nav-links" id="navMenu">
-      <div class="nav-left">
-        <a href="index.html">Minimal Store</a>
-        <a href="cart.html">Cart</a>
-        <a href="wishlist.html">Wishlist</a>
-        <a href="orders.html">My Orders</a>
-      </div>
-      <div class="nav-right">
-           <button class="btn1" id="dark-mode-toggle">Dark Mode</button>
-        <button class="login-Btn" type="button" onclick="window.location.href='login.html'">Login</button>
-
-      <button class="btn-register" type="button" onclick="window.location.href='register.html'">Register</button>
-
-        <button class="btn-logout" type="button" onclick="window.location.href='register.html'">logout</button>
-      </div>
-    </nav>
-  </header>
-
-  <div class="container">
-    <h2>My Orders</h2>
-    <div class="table-responsive">
+    <div class="container">
+      <h2 class="mt-2 mb-2">My Orders</h2>
       <table>
+        <caption id="orders-table-caption" class="text-center mb-1">Orders</caption>
+
         <thead>
           <tr>
             <th>Order ID</th>
@@ -49,41 +46,16 @@
         <tbody id="ordersTable">
         </tbody>
       </table>
+      <div class="loader"></div>
     </div>
-  </div>
+  </main>
 
   <footer>© 2025 Minimal Store</footer>
-  <script type="module" src="assets/js/main.js"></script>
-
-  <script>
-    function toggleMenu() {
-      const nav = document.getElementById('navMenu');
-      nav.classList.toggle('show');
-    }
-  </script>
-
-
-
+  <script src="assets/js/components/nav_bar.js"></script>
   <script type="module" src="assets/js/main.js"></script>
   <script type="module" src="assets/js/pages/orders.js"></script>
 
 
-  <!-- // Dark mode toggle -->
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const toggleBtn = document.getElementById("dark-mode-toggle");
-
-  toggleBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-
-    if (document.body.classList.contains("dark-mode")) {
-      toggleBtn.textContent = "Light";
-    } else {
-      toggleBtn.textContent = "Dark";
-    }
-  });
-});
-</script>
 
 </body>
 

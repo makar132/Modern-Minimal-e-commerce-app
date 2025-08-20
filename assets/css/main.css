@@ -209,7 +209,7 @@ main {
 }
 
 /* Category badge (generic, no hardcoded names) */
-.badge {
+/* .badge {
     position: absolute;
     top: .75rem;
     left: .75rem;
@@ -221,7 +221,7 @@ main {
     background: color-mix(in oklab, var(--text-color) 8%, transparent);
     border: 1px solid color-mix(in oklab, var(--text-color) 18%, transparent);
     backdrop-filter: blur(2px);
-}
+} */
 
 /* Content */
 .product-card .card-content {
@@ -408,7 +408,7 @@ tr:hover {
 }
 
 /* Simple badge for order status */
-.badge {
+/* .badge {
     padding: 0.3rem 0.6rem;
     border-radius: 4px;
     font-size: 0.8rem;
@@ -426,7 +426,7 @@ tr:hover {
 
 .badge.rejected {
     background-color: #e74c3c;
-}
+} */
 
 /* Utility classes */
 .text-center {
