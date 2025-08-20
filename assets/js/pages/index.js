@@ -52,7 +52,8 @@ function renderProducts(filterCategory = "All Categories") {
 
       // لما اضغط على الكارد يفتح صفحة المنتج
       card.addEventListener("click", () => {
-        goto(`product.html?id=${data.id}`);
+       window.location.href = `product.html?id=${data.id}`;
+
       });
 
       productList.appendChild(card);
