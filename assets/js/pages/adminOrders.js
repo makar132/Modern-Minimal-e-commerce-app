@@ -18,7 +18,7 @@ function renderOrder(order) {
         <td>${order.customerEmail || order.customerId}</td>
         <td>${order.items?.length || 0}</td>
         <td>${order.total?.toFixed?.(2) ?? ""}</td>
-        <td > <span class="badge ${order.status}"> ${order.status}</span> </td>
+        <td > <span class="orders-badge ${order.status}"> ${order.status}</span> </td>
         <td> ${
           order.status === "pending"
             ? `   <button class="btn confirm" data-id="${order.id}">Confirm</button>

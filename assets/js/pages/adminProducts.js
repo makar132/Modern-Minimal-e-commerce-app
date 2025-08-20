@@ -31,8 +31,7 @@ const els = {
 async function populateCategorySelects() {
   const selects = qsa("select.category-select");
   if (!selects.length) return;
-  const q2 = query(collection(db, "categories"), orderBy("updatedAt", "asc"));
-  const snap = await getDocs(q2);
+  const snap = await getDocs(collection(db, "categories"));
   const options = [
     `<option value="" disabled selected hidden>Select a category</option>`,
   ];

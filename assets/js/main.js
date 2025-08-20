@@ -72,6 +72,7 @@ if (logoutBtn) {
     // Clear any client-side auth markers and send user to login
     try {
       localStorage.removeItem("user");
+      auth.signOut();
     } catch (_) {}
     window.location.href = LOGOUT_URL.href;
   });
