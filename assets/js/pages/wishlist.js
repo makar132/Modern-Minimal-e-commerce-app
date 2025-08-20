@@ -6,11 +6,12 @@ const tbody = document.getElementById("wishlist-body");
 if (!user) {
   alert("يرجى تسجيل الدخول لعرض المفضلة.");
 } else {
-  const wishlistRef = collection(db, "users", user.uid, "whishlist");
+  const wishlistRef = collection(db, "users", user.uid, "wishlist");
   const loadWishlist = async () => {
     tbody.innerHTML = "";
     const snapshot = await getDocs(wishlistRef);
     snapshot.forEach((docSnap) => {
+      console.log(docSnap.data());
       const data = docSnap.data();
       const row = `
             <tr>
@@ -42,7 +43,7 @@ if (!user) {
   };
 
   window.removeFromWishlist = async (productId) => {
-    await deleteDoc(doc(db, "users", user.uid, "whishlist", productId));
+    await deleteDoc(doc(db, "users", user.uid, "wishlist", productId));
     alert("تم الحذف من المفضلة");
     loadWishlist();
   };
