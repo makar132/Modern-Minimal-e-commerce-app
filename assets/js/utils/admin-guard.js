@@ -6,6 +6,7 @@ const goto = (p) =>
   location.replace(new URL(p, location.origin + APP_BASE).href);
 
 onAuthStateChanged(auth, async (user) => {
+  console.log("admin guard",user);
   if (!user) return goto("login.html");
 
   // Check role from Firestore
