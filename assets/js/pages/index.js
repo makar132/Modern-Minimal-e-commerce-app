@@ -1,3 +1,5 @@
+import { db, collection, getDocs } from "../main.js";
+
 const APP_BASE = "/Modern-Minimal-e-commerce-app/";
 const goto = (p) =>
   location.replace(new URL(p, location.origin + APP_BASE).href);
@@ -9,56 +11,60 @@ document.querySelector(".menu-btn").addEventListener("click", function () {
 document.getElementById("darkModeBtn").addEventListener("click", function () {
   document.body.classList.toggle("dark");
   if (document.body.classList.contains("dark")) {
-    document.body.style.backgroundColor = "#222";
-    document.body.style.color = "#fff";
+    document.body.style.backgroundColor = "#1e1e1e";
+    document.body.style.color = "#aaaaaa";
   } else {
-    document.body.style.backgroundColor = "#f9f9f9";
-    document.body.style.color = "#333";
+    document.body.style.backgroundColor = "white";
+    document.body.style.color = "black";
   }
 });
 
-import { db, collection, getDocs } from "../main.js";
-
-// readproducts
 var productCard = document.getElementById("productCard");
 var productList = document.querySelector(".product-list");
-var category = document.getElementById("category");
+var categorySelect = document.getElementById("category");
+
 var collectionRef = collection(db, "products");
-const querySnapshot = await getDocs(collection(db, "products"));
-console.log("All products", querySnapshot);
-productList.innerHTML = ""; // Clear existing products
-querySnapshot.forEach((product) => {
-  const card = productCard.cloneNode(true);
-  productList;
-  card.querySelector("img").src = product.image;
-  card.querySelector("h3").textContent = product.name;
-  card.querySelector(".price").textContent = `$${product.price}`;
-  card.setAttribute("data-category", product.category);
-  console.log(card);
-  productList.appendChild(card);
+const querySnapshot = await getDocs(collectionRef);
+
+// نخزن كل الـ products في Array
+let products = [];
+querySnapshot.forEach((doc) => {
+  let data = doc.data();
+  data.id = doc.id; // نحفظ الـ id
+  products.push(data);
 });
 
-productList.innerHTML = ""; // Clear existing products
+// Function لعرض المنتجات (مع الفلترة)
+function renderProducts(filterCategory = "All Categories") {
+  productList.innerHTML = "";
 
-querySnapshot.forEach((doc) => {
-  const data = doc.data();
-  const card = productCard.cloneNode(true);
+  products.forEach((data) => {
+    if (
+      filterCategory === "All Categories" ||
+      data.category.toLowerCase() === filterCategory.toLowerCase()
+    ) {
+      const card = productCard.cloneNode(true);
+      card.querySelector("img").src = data.image;
+      card.querySelector("h3").textContent = data.name;
+      card.querySelector(".price").textContent = `$${data.price}`;
+      card.setAttribute("data-category", data.category);
+      card.setAttribute("data-id", data.id);
 
-  //  details product
-  card.querySelector("img").src = data.image;
-  card.querySelector("h3").textContent = data.name;
-  card.querySelector(".price").textContent = `$${data.price}`;
-  card.setAttribute("data-category", data.category);
+      // لما اضغط على الكارد يفتح صفحة المنتج
+      card.addEventListener("click", () => {
+       window.location.href = `product.html?id=${data.id}`;
 
-  card.setAttribute("data-id", doc.id);
+      });
 
-  card.addEventListener("click", () => {
-    goto(`product.html?id=${doc.id}`);
+      productList.appendChild(card);
+    }
   });
+}
 
-  productList.appendChild(card);
-});
+// نعرض الكل أول مرة
+renderProducts();
 
-querySnapshot.forEach((doc) => {
-  console.log(doc.id, " => ", doc.data());
+// نسمع لأي تغيير في الـ dropdown
+categorySelect.addEventListener("change", (e) => {
+  renderProducts(e.target.value);
 });
