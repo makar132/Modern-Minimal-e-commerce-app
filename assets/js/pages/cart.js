@@ -1,7 +1,26 @@
-import {db,collection,doc,updateDoc,deleteDoc,onSnapshot,getDoc} from "../main.js";
+import {
+  db,
+  collection,
+  doc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  getDoc,
+} from "../main.js";
 
 const user = JSON.parse(localStorage.getItem("user"));
 const userId = user.uid;
+
+const APP_BASE = "/Modern-Minimal-e-commerce-app/";
+
+/**
+ * Navigate to a relative path within the app base.
+ * Uses URL to safely concatenate paths and origin.
+ * @param {string} p relative path (e.g., "product.html?id=123")
+ */
+const goto = (p) =>
+  (window.location.href = new URL(p, location.origin + APP_BASE).href);
+
 // 1. Fetch cart items for the test user
 function getCartItems() {
   const cartRef = collection(db, "users", userId, "cart");
@@ -9,17 +28,17 @@ function getCartItems() {
     let cartItems = [];
     // loop over each cart item
     for (const docItem of snapshot.docs) {
-      const cartData = docItem.data(); 
+      const cartData = docItem.data();
       // get product details
       const productRef = doc(db, "products", cartData.productId);
       const productSnap = await getDoc(productRef);
       if (productSnap.exists()) {
-        const productData = productSnap.data(); 
+        const productData = productSnap.data();
         cartItems.push({
-          id: docItem.id,       
+          id: docItem.id,
           productId: cartData.productId,
           quantity: cartData.quantity,
-          ...productData
+          ...productData,
         });
       }
     }
@@ -28,12 +47,13 @@ function getCartItems() {
 }
 // 2. Generate HTML table
 function generateCartItems(cartItems) {
-    let subtotal = 0;
-    let rowsHTML = cartItems.map(item => {
-    let total = item.price * item.quantity;
-    subtotal += total;
+  let subtotal = 0;
+  let rowsHTML = cartItems
+    .map((item) => {
+      let total = item.price * item.quantity;
+      subtotal += total;
 
-    return `
+      return `
       <tr>
         <td> ${item.name}</td>
         <td>$${item.price}</td>
@@ -42,17 +62,18 @@ function generateCartItems(cartItems) {
             type="number" 
             class="qty-input" 
             data-id="${item.id}" 
+            data-stock="${item.stock}"
             value="${item.quantity}" 
           />
         </td>
         <td>$${total}</td>
-        <td><button class="remove-btn" data-id="${item.id}">Remove</button></td>
+        <td><button class="btn btn-danger-outline" data-id="${item.id}">Remove</button></td>
       </tr>
     `;
-  }).join("");
+    })
+    .join("");
 
   let tableHTML = `
-    <div class="table-container">
       <table>
         <thead>
           <tr>
@@ -62,40 +83,43 @@ function generateCartItems(cartItems) {
         </thead>
         <tbody>${rowsHTML}</tbody>
       </table>
+    <div class="mt-3" style="text-align:right; font-size:1.2rem; font-weight:bold;">
+      Total: <span id="cartTotal">$${subtotal.toFixed(2)}</span>
     </div>
-      <div class="total">Total:$${subtotal}</div>
-      <a  class="colored-btn">Proceed to checkout</a>
-  `;
+    <div class="mt-2" style="text-align:right;">
+      <button class="btn checkout-btn">Proceed to Checkout</button>
+    </div>  `;
   document.querySelector(".container").innerHTML = tableHTML;
   attachCartEvents();
 }
 // 3. Handle quantity changes & delete
 function attachCartEvents() {
   // change quantity
-  document.querySelectorAll(".qty-input").forEach(input => {
+  document.querySelectorAll(".qty-input").forEach((input) => {
+    input.setAttribute("min", 1);
+    input.setAttribute("max", input.getAttribute("data-stock"));
+
     input.addEventListener("change", async (e) => {
       let newQty = parseInt(e.target.value);
       let cartDocId = e.target.getAttribute("data-id");
-      if (newQty > 0) {
-        await updateDoc(doc(db, "users", userId, "cart", cartDocId), {
-          quantity: newQty
-        });
-      }
+      await updateDoc(doc(db, "users", userId, "cart", cartDocId), {
+        quantity: newQty,
+      });
     });
   });
   // remove item
-  document.querySelectorAll(".remove-btn").forEach(btn => {
+  document.querySelectorAll(".remove-btn").forEach((btn) => {
     btn.addEventListener("click", async () => {
       let cartDocId = btn.getAttribute("data-id");
       await deleteDoc(doc(db, "users", userId, "cart", cartDocId));
     });
   });
   // checkout
-  const checkoutBtn = document.querySelector(".colored-btn");
+  const checkoutBtn = document.querySelector(".checkout-btn");
   if (checkoutBtn) {
-  checkoutBtn.addEventListener("click", () => {
-    window.location.href = "/checkout.html";
-  });
-}
+    checkoutBtn.addEventListener("click", () => {
+      goto("checkout.html");
+    });
+  }
 }
 getCartItems();

@@ -1,40 +1,49 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cart</title>
-  <link rel="stylesheet" href="assets/css/pages/cart.css">
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
+
 <body>
   <nav class="navbar">
-    <div class="nav-links">
-        <a href="index.html">Minimal Store</a>
-        <a href="cart.html">Cart</a>
-        <a href="wishlist.html">Wishlist</a>
-        <a href="orders.html">My Orders</a>
+    <!-- Mobile menu toggle; visible on small screens -->
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="left">
+      <a href="index.html" class="brand">Minimal Store</a>
+      <a href="cart.html">Cart</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="orders.html">My Orders</a>
     </div>
-    <div class="burger" onclick="document.querySelector('.nav-links').classList.toggle('show')">
-      <span></span>
-      <span></span>
-      <span></span>
+    <div class="right">
+      <button id="modeToggle" class="mode-toggle">Dark Mode</button>
+      <span id="authLinks">
+        <a href="login.html">Login</a> /
+        <a href="register.html">Register</a>
+      </span>
+      <button id="logoutBtn" class="btn btn-outline" style="display:none;">Logout</button>
     </div>
-    <div class="nav-buttons">
-        <button class="theme-btn" >Dark Mode</button>
-        <button class="btn" onclick="window.location.href = 'login.html'">Login</button>
-        <button class="btn" onclick="window.location.href = 'register.html'">Register</button>
-        <button class="btn" >Logout</button>
-      </div>
   </nav>
-  
-<div class="container">
-    <h2>Shopping Cart</h2>
-    
-</div>
-<footer>
+  <main>
+    <h2 class="mb-2">Shopping Cart</h2>
+    <div class="container">
+      <!-- Your cart content goes here -->
+      <!-- this will be automatically populated -->
+      <!-- show loader -->
+      <div class="loader"></div>
+
+    </div>
+
+  </main>
+  <footer>
     &copy; 2025 Minimal Store
-</footer>
+  </footer>
+  <script src="assets/js/components/nav_bar.js"></script>
   <script type="module" src="assets/js/main.js"></script>
   <script type="module" src="assets/js/pages/cart.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,13 @@
 import {
-  db, collection, doc, getDoc, getDocs,
-  deleteDoc, updateDoc, addDoc, serverTimestamp
+  db,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  deleteDoc,
+  updateDoc,
+  addDoc,
+  serverTimestamp,
 } from "../main.js";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -29,7 +36,7 @@ async function loadCheckout() {
       name: productData.name,
       price: productData.price,
       quantity: cartData.quantity,
-      total
+      total,
     });
   }
 
@@ -39,18 +46,24 @@ async function loadCheckout() {
 // 2. render data into HTML
 function renderCheckout(items, subtotal) {
   const tbody = document.getElementById("cart-body");
-  tbody.innerHTML = items.map(item => `
+  tbody.innerHTML = "";
+  tbody.innerHTML = items
+    .map(
+      (item) => `
     <tr>
       <td>${item.name}</td>
       <td>$${item.price}</td>
       <td>${item.quantity}</td>
       <td>$${item.total}</td>
     </tr>
-  `).join("");
+  `
+    )
+    .join("");
 
   document.getElementById("subtotal").textContent = subtotal;
-
   attachCheckoutEvents(items, subtotal);
+  const loader= document.querySelector(".loader");
+  loader.remove();
 }
 // 3. handle confirm order
 function attachCheckoutEvents(items, subtotal) {
@@ -84,7 +97,7 @@ function attachCheckoutEvents(items, subtotal) {
         }
 
         await updateDoc(productRef, {
-          stock: productData.stock - cartData.quantity
+          stock: productData.stock - cartData.quantity,
         });
 
         const totalItem = productData.price * cartData.quantity;
@@ -94,7 +107,7 @@ function attachCheckoutEvents(items, subtotal) {
           productId: cartData.productId,
           name: productData.name,
           price: productData.price,
-          quantity: cartData.quantity
+          quantity: cartData.quantity,
         });
       }
 
@@ -107,7 +120,7 @@ function attachCheckoutEvents(items, subtotal) {
         items: finalItems,
         total,
         status: "pending",
-        createdAt: serverTimestamp()
+        createdAt: serverTimestamp(),
       });
 
       for (const cartDoc of snapshot.docs) {
