@@ -5,37 +5,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Store Product</title>
-  <link rel="stylesheet" href="assets/css/pages/product.css">
+  <!-- <link rel="stylesheet" href="assets/css/pages/product.css"> -->
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
 <body>
   <!-- Header -->
-  <header>
-    <button class="menu-btn">☰</button>
-    <nav>
-      <ul>
-        <li><a href="index.html">Minimal Store</a></li>
-        <li><a href="cart.html">Cart</a></li>
-        <li><a href="wishlist.html">Wishlist</a></li>
-        <li><a href="orders.html">My Orders</a></li>
-      </ul>
-    </nav>
-    <div class="nav-buttons">
-      <button id="darkModeBtn">Dark Mode</button>
-      <button id="logoutBtn">Logout</button>
+  <nav class="navbar">
+    <!-- Mobile menu toggle; visible on small screens -->
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="left">
+      <a href="index.html" class="brand">Minimal Store</a>
+      <a href="cart.html">Cart</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="orders.html">My Orders</a>
     </div>
-  </header>
+    <div class="right">
+      <button id="modeToggle" class="mode-toggle">Dark Mode</button>
+      <span id="authLinks">
+        <a href="login.html">Login</a> /
+        <a href="register.html">Register</a>
+      </span>
+      <button id="logoutBtn" class="btn btn-outline" style="display:none;">Logout</button>
+    </div>
+  </nav>
 
   <!-- Main Product Section -->
   <main>
-    <img id="product-img" src="" alt="Product Image" class="product-img" width="250">
-    <div class="product-details">
-      <h2 id="product-title"></h2>
-      <p id="product-category"></p>
-      <p class="price" id="product-price"></p>
-      <p id="product-description"></p>
-      <button id="AddCartBtn">Add to Cart</button>
-      <button id="WishlistBtn">Wishlist</button>
+    <div class="container">
+      <div class="loader"></div>
     </div>
   </main>
 
@@ -43,8 +41,8 @@
   <footer>
     &copy; 2025 Minimal Store
   </footer>
+  <script src="assets/js/components/nav_bar.js"></script>
   <script type="module" src="assets/js/main.js"></script>
-
   <script src="assets/js/pages/product.js" type="module"></script>
 </body>
 

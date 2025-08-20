@@ -1,17 +1,142 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Checkout</title>
-  <link rel="stylesheet" href="assets/css/base.css">
-  <link rel="stylesheet" href="assets/css/utilities.css">
+  <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    /* Tiny, page-specific helpers (keeps global CSS minimal) */
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2rem;
+      align-items: start
+    }
+
+    @media (max-width:900px) {
+      .checkout-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .section-title {
+      margin: .5rem 0 1rem;
+      font-weight: 700
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: flex-end;
+      font-weight: 700;
+      margin: .75rem 0 1.25rem
+    }
+
+    table caption {
+      caption-side: top;
+      text-align: left;
+      padding: .75rem 1rem;
+      font-weight: 600
+    }
+
+    .muted {
+      color: var(--muted-text-color)
+    }
+
+    .hidden {
+      display: none
+    }
+  </style>
 </head>
-<body data-page="checkout">
-  <main class="container stack">
-    <h1>Checkout</h1>
-    <!-- Placeholder page. Implement markup following the guidelines. -->
+
+<body>
+  <!-- Nav keeps your component/JS; only markup, a11y bits improved -->
+  <nav class="navbar" aria-label="Primary">
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+    <div class="left">
+      <a href="index.html" class="brand">Minimal Store</a>
+      <a href="cart.html">Cart</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="orders.html">My Orders</a>
+    </div>
+    <div class="right">
+      <button id="modeToggle" class="mode-toggle" aria-pressed="false">Dark Mode</button>
+      <span id="authLinks">
+        <a href="login.html">Login</a> / <a href="register.html">Register</a>
+      </span>
+      <button id="logoutBtn" class="btn btn-outline" style="display:none">Logout</button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container checkout-grid">
+      <!-- LEFT: Order summary -->
+      <section aria-labelledby="order-summary">
+        <h2 id="order-summary" class="section-title">Shopping Cart</h2>
+
+        <table aria-describedby="order-summary">
+          <caption>Order Summary</caption>
+          <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+              <th scope="col">Qty</th>
+              <th scope="col">Subtotal</th>
+            </tr>
+          </thead>
+          <tbody id="cart-body">
+          </tbody>
+        </table>
+        <div class="loader"></div>
+
+        <div class="total-row">
+          Total:&nbsp;<span id="subtotal" aria-live="polite">$0.00</span>
+        </div>
+      </section>
+
+      <!-- RIGHT: Shipping / checkout form -->
+      <section aria-labelledby="shipping-details">
+        <h3 id="shipping-details" class="section-title">Shipping Details</h3>
+
+        <!-- Keep using your global form styles from main.css -->
+        <form id="checkout-form" novalidate>
+          <!-- Keep labels “for” + inputs “id” aligned; add autocomplete to help mobile UX -->
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input id="name" name="name" type="text" placeholder="Enter your full name" autocomplete="name" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="Enter your email" autocomplete="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input id="address" name="address" type="text" placeholder="Enter your address"
+              autocomplete="shipping address-line1" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="tel" placeholder="Enter your phone number" autocomplete="tel"
+              inputmode="tel" pattern="^[\d+().\-\s]{7,}$" required />
+            <div id="phoneHelp" class="muted">Digits, +, (), - allowed.</div>
+          </div>
+
+          <button id="confirmBtn" class="btn" type="submit">Confirm Order</button>
+        </form>
+      </section>
+    </div>
   </main>
+
+  <footer>&copy; 2025 Minimal Store</footer>
+
+  <!-- Your existing scripts -->
+  <script src="assets/js/components/nav_bar.js"></script>
   <script type="module" src="assets/js/main.js"></script>
+  <script type="module" src="./assets/js/pages/checkout.js"></script>
 </body>
+
 </html>

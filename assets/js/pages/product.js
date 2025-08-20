@@ -1,130 +1,127 @@
+// assets/js/pages/product.js (module)
+import { db, doc, getDoc } from "../main.js";
+import { addToCart, addToWishlist } from "../utils/user_actions.js";
 
-document.querySelector(".menu-btn").addEventListener("click", function() {
-    document.querySelector("nav ul").classList.toggle("show");
-});
+/* ------------------------
+   Tiny utils
+------------------------ */
+const $ = (sel) => document.querySelector(sel);
+const money = (v) => `$${Number(v ?? 0).toFixed(2)}`;
+const getProductId = () => new URLSearchParams(location.search).get("id");
 
-document.getElementById("darkModeBtn").addEventListener("click", function() {
-    document.body.classList.toggle("dark");
-    if (document.body.classList.contains("dark")) {
-        document.body.style.backgroundColor = "#222";
-        document.body.style.color = "#fff";
-    } else {
-        document.body.style.backgroundColor = "#f9f9f9";
-        document.body.style.color = "#333";
-    }
-}); 
- import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+/* ------------------------
+   Firestore
+------------------------ */
+async function fetchProduct(id) {
+  const snap = await getDoc(doc(db, "products", id));
+  return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+}
 
-    // Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyAcictnKPsnIq7Udyiz2XGIuMo72dRdlvU",
-      authDomain: "e-commerce-js-app.firebaseapp.com",
-      projectId: "e-commerce-js-app",
-      storageBucket: "e-commerce-js-app.firebasestorage.app",
-      messagingSenderId: "383942089852",
-      appId: "1:383942089852:web:99224fda7fd586e7cafdf9",
-      measurementId: "G-TV0G1TS360",
-    };
+/* ------------------------
+   Rendering
+------------------------ */
+/** Put a simple message in the detail area. */
+function renderMessage(text) {
+  const root = ensureDetailRoot();
+  root.innerHTML = `<div class="alert">${text}</div>`;
+}
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+/** Ensure we have a #productDetail container to render into. */
+function ensureDetailRoot() {
+  let root = $("#productDetail");
+  if (!root) {
+    root = document.createElement("div");
+    root.id = "productDetail";
+    document.querySelector("main")?.appendChild(root);
+  }
+  // Apply the layout from your snippet
+  Object.assign(root.style, {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "2rem",
+    alignItems: "flex-start",
+  });
+  return root;
+}
 
-    // Read productId from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get("id");
+/** Build the card DOM using your snippet (no innerHTML, no inline onclick). */
+function buildDetailCard(p) {
+  const img = document.createElement("img");
+  img.src = p.image || "images/default.jpg";
+  img.alt = p.name || "Product";
+  Object.assign(img.style, {
+    maxWidth: "400px",
+    width: "100%",
+    borderRadius: "8px",
+  });
 
-    if (productId) {
-      const productRef = doc(db, "products", productId);
-      const productSnap = await getDoc(productRef);
+  const right = document.createElement("div");
+  Object.assign(right.style, { flex: "1", minWidth: "250px" });
 
-      if (productSnap.exists()) {
-        const data = productSnap.data();
-        document.getElementById("product-img").src = data.image || "images/default.jpg";
-        document.getElementById("product-title").textContent = data.name || "No name";
-        document.getElementById("product-price").textContent = `$${data.price || 0}`;
-        document.getElementById("product-description").textContent = data.description || "No description";
-        document.getElementById("product-category").textContent = `Category: ${data.category || "Uncategorized"}`;
-      } else {
-        document.getElementById("product-title").textContent = "Product not found!";
-      }
-    } else {
-      document.getElementById("product-title").textContent = "No product selected!";
-    }
+  const h2 = document.createElement("h2");
+  h2.textContent = p.name || "No name";
 
-    // زرار الإضافة
-    const AddCartBttn = document.getElementById('AddCartBtn');
-  
+  const cat = document.createElement("p");
+  cat.textContent = `Category: ${p.category || "Uncategorized"}`;
+  cat.style.color = "var(--muted-text-color)";
 
-    /**
-     * يرسل المنتج إلى عربة التسوق الخاصة بالمستخدم المسجل حاليًا (من localStorage)
-     */
-    async function addProductToUserCart(product) {
-      const userData = JSON.parse(localStorage.getItem('user'));
+  const price = document.createElement("p");
+  price.textContent = money(p.price);
+  Object.assign(price.style, {
+    fontSize: "1.3rem",
+    color: "var(--primary-color)",
+    fontWeight: "bold",
+  });
 
-      if (userData) {
-        try {
-          const cartItemRef = doc(db, "users", userData.uid, "cart", product.id);
-          await setDoc(cartItemRef, {
-            productId: product.id,
-            name: product.name,
-            price: product.price,
-            imageUrl: product.image,
-            quantity: 1,
-            createdAt: new Date()
-          });
+  const desc = document.createElement("p");
+  desc.className = "mt-1";
+  desc.style.lineHeight = "1.6";
+  desc.textContent = p.description || "No description";
 
-          alert(`${product.name} تم إضافته إلى عربة التسوق بنجاح!`);
-        } catch (error) {
-          console.error("Error adding product to cart: ", error);
-        }
-      } else {
-        alert("يرجى تسجيل الدخول أولاً لإضافة منتجات!");
-      }
-    }
+  const actions = document.createElement("div");
+  actions.className = "mt-3";
+  Object.assign(actions.style, { display: "flex", gap: "0.8rem" });
 
-    // لما يضغط على الزر
-    AddCartBttn.addEventListener('click', () => {
-      const product = {
-        id: productId,
-        name: document.getElementById("product-title").textContent,
-        price: parseFloat(document.getElementById("product-price").textContent.replace('$', '')),
-        image: document.getElementById("product-img").src
-      };
-      addProductToUserCart(product);
-    });
-    // زرار الإضافة إلى المفضلة
-      var WishlistBttn = document.getElementById('WishlistBtn');
-       async function addProductToUserwishList(product) {
-      const userData = JSON.parse(localStorage.getItem('user'));
+  const addBtn = document.createElement("button");
+  addBtn.className = "btn";
+  addBtn.textContent = "Add to Cart";
+  addBtn.addEventListener("click", () => addToCart(p));
 
-      if (userData) {
-        try {
-          const WishlistItemRef = doc(db, "users", userData.uid, "whishlist", product.id);
-          await setDoc(WishlistItemRef, {
-            productId: product.id,
-            name: product.name,
-            price: product.price,
-            imageUrl: product.image,
-            quantity: 1,
-            createdAt: new Date()
-          });
+  const wishBtn = document.createElement("button");
+  wishBtn.className = "btn btn-outline";
+  wishBtn.textContent = "Wishlist";
+  wishBtn.addEventListener("click", () => addToWishlist(p));
 
-          alert(`${product.name} تم إضافته إلى عربة التسوق بنجاح!`);
-        } catch (error) {
-          console.error("Error adding product to cart: ", error);
-        }
-      } else {
-        alert("يرجى تسجيل الدخول أولاً لإضافة منتجات!");
-      }
-    }
-    WishlistBttn.addEventListener('click', () => {
-      const product = {
-        id: productId,
-        name: document.getElementById("product-title").textContent,
-        price: parseFloat(document.getElementById("product-price").textContent.replace('$', '')),
-        image: document.getElementById("product-img").src
-      };
-      addProductToUserwishList(product);
-    });
+  actions.append(addBtn, wishBtn);
+  right.append(h2, cat, price, desc, actions);
+
+  const frag = document.createDocumentFragment();
+  frag.append(img, right);
+  return frag;
+}
+
+/** Render the product into #productDetail. */
+function renderProduct(p) {
+  if (!p) return renderMessage("Product not found!");
+  const root = $(".container");
+  //create product details div
+  const productDetails = document.createElement("div");
+  productDetails.style =
+    "display:flex; flex-wrap:wrap; gap:2rem; align-items:center; justify-content:center;";
+  productDetails.append(buildDetailCard(p));
+  root.innerHTML = ""; // clear previous
+  root.append(productDetails);
+}
+
+/* ------------------------
+   Init
+------------------------ */
+async function init() {
+  const id = getProductId();
+  if (!id) return renderMessage("No product selected!");
+
+  const product = await fetchProduct(id);
+  renderProduct(product);
+}
+
+document.addEventListener("DOMContentLoaded", init);

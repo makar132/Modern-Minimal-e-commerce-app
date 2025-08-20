@@ -1,0 +1,642 @@
+/*
+ * Global Stylesheet for the Minimal E‑Commerce Template
+ *
+ * This file defines the core styling rules used across all pages in the
+ * application. It uses CSS custom properties (variables) to enable
+ * light and dark modes. Simply toggling the `.dark` class on the body
+ * will flip the values of these variables, allowing for a seamless
+ * theme change without rewriting each rule.
+ */
+
+/* Theme variables for light and dark modes */
+:root {
+    --bg-color: #f9f9f9;
+    --surface-color: #ffffff;
+    --text-color: #222222;
+    --muted-text-color: #666666;
+    --primary-color: #007acc;
+    --primary-hover: #005da3;
+    --border-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --danger-color: #e74c3c;
+    --danger-hover: #c0392b;
+
+}
+
+.dark {
+    --bg-color: #1e1e1e;
+    --surface-color: #2a2a2a;
+    --text-color: #dddddd;
+    --muted-text-color: #aaaaaa;
+    --primary-color: #3899ec;
+    --primary-hover: #2a7ab8;
+    --border-color: #3b3b3b;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --danger-color: #e74c3c;
+    --danger-hover: #c0392b;
+
+}
+
+/* Base reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+    padding: 2rem 1rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    margin: 0 auto;
+    text-align: center;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Navigation bar */
+.navbar {
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar a {
+    color: var(--text-color);
+    text-decoration: none;
+    margin-right: 1.5rem;
+    font-weight: 500;
+}
+
+.navbar a:hover {
+    color: var(--primary-color);
+}
+
+.navbar .right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.mode-toggle {
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.mode-toggle:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+/* Hero section */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--surface-color);
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.6));
+}
+
+.hero .content {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 2rem;
+    color: #fff;
+}
+
+/* Grid for products */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 16rem));
+    gap: 1.25rem;
+}
+
+/* Improved product card */
+.product-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    background: var(--bg-color);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+    overflow: hidden;
+    transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+    /* border-color: color-mix(in oklab, var(--text-color) 15%, transparent); */
+    border-color: var(--primary-color);
+}
+
+/* Image area with overlay badge */
+.product-card .media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    /* uniform height */
+    background: color-mix(in oklab, var(--text-color) 6%, transparent);
+}
+
+.product-card .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Category badge (generic, no hardcoded names) */
+ .badge {
+    position: absolute;
+    top: .75rem;
+    left: .75rem;
+    padding: .25rem .6rem;
+    font-size: .72rem;
+    line-height: 1;
+    border-radius: 999px;
+    color: var(--text-color);
+    /* background: color-mix(in oklab, var(--surface-color) 8%, transparent); */
+    background-color: var(--surface-color);
+    border: 1px solid color-mix(in oklab, var(--text-color) 18%, transparent);
+    backdrop-filter: blur(2px);
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    -ms-border-radius: 999px;
+    -o-border-radius: 999px;
+}
+
+/* Content */
+.product-card .card-content {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding: .9rem 1rem 1rem;
+}
+
+.product-card .title {
+    font-weight: 600;
+}
+
+.product-card .price {
+    font-weight: 700;
+    color: var(--accent, #0d6efd);
+}
+
+.product-card .description {
+    font-size: .9rem;
+    color: var(--muted-text-color);
+}
+
+/* Actions: full-width buttons, consistent bottom alignment */
+.product-card .actions {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
+}
+
+.product-card .actions .btn,
+.product-card .actions .btn.btn-outline {
+    width: 100%;
+}
+
+/* Buttons */
+
+.btn {
+    padding: 0.5rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--primary-color);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-hover);
+}
+
+.btn-danger-outline {
+    background-color: transparent;
+    border: 1px solid var(--danger-color);
+    color: var(--danger-color);
+}
+
+.btn-danger-outline:hover {
+    background-color: var(--danger-color);
+    color: #fff;
+}
+
+/* Forms */
+form {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+form h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+}
+
+/* Generic form group styling (used on pages like checkout) */
+.form-group {
+    margin-bottom: 1rem;
+    max-width: 500px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+}
+
+.error {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+th,
+td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+    color: var(--text-color);
+}
+
+th {
+    background-color: var(--bg-color);
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: var(--bg-color);
+}
+
+
+/* Utility classes */
+.text-center {
+    text-align: center;
+}
+
+.mt-1 {
+    margin-top: 0.5rem;
+}
+
+.mt-2 {
+    margin-top: 1rem;
+}
+
+.mt-3 {
+    margin-top: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.mb-1 {
+    margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 1rem;
+}
+
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 2rem;
+}
+
+/* Footer */
+footer {
+    background-color: var(--surface-color);
+    border-top: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    text-align: center;
+    color: var(--muted-text-color);
+    font-size: 0.9rem;
+}
+
+/* Navigation toggle for small screens */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.25rem;
+    color: var(--text-color);
+}
+
+
+
+
+/* Responsive adjustments */
+
+/*
+ * The site is designed for three primary breakpoints:
+ *  - Large screens (desktops/laptops > 1024px) use the default styling defined above.
+ *  - Medium screens (tablets/landscape phones between ~600px and 1024px) stack some
+ *    elements and slightly reduce spacing.
+ *  - Small screens (phones < 600px) collapse navigation into a vertical layout,
+ *    reduce hero height and ensure tables scroll horizontally rather than overflow.
+ *
+ * These media queries progressively override the base styles to create a
+ * responsive layout without changing the HTML structure. The breakpoints are
+ * intentionally broad to accommodate a variety of device widths.
+ */
+
+/* Medium devices: tablets, small laptops */
+@media (max-width: 1024px) {
+
+    /* Reduce spacing in the navbar and allow wrapping of items */
+    .navbar {
+        flex-wrap: wrap;
+        padding: 0.8rem 1rem;
+    }
+
+    .navbar .right,
+    .navbar .left {
+        margin-top: 0.5rem;
+    }
+
+    .navbar a {
+        margin-right: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    main {
+        padding: 1.5rem 1rem;
+    }
+
+    /* Slightly shorten hero on medium screens */
+    .hero {
+        height: 250px;
+    }
+
+    /* Stack product detail layout vertically */
+    #productDetail {
+        flex-direction: column;
+    }
+
+    #productDetail img {
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    /* Make sure product grid doesn’t cram too many cards */
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+/* Small devices: phones */
+@media (max-width: 600px) {
+
+    /* Navbar: show the hamburger button and hide links by default */
+    .navbar {
+        flex-direction: row;
+        align-items: center;
+        padding: 0.8rem 1rem;
+    }
+
+    /* Hide all navigation links except the brand and show only when menu is open */
+    .navbar .left a:not(.brand),
+    .navbar .right {
+        display: none;
+    }
+
+    .navbar.open .left a:not(.brand),
+    .navbar.open .right {
+        display: flex;
+    }
+
+    /* Stack links vertically when menu is open */
+    .navbar.open .left a:not(.brand) {
+        margin-bottom: 0.5rem;
+    }
+
+    .navbar.open .right {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    /* Always show the brand */
+    .navbar .left a.brand {
+        margin-right: auto;
+    }
+
+    /* Spacing for dark mode / logout buttons when stacked */
+    .navbar.open .mode-toggle,
+    .navbar.open .btn.btn-outline {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Compress hero height for small screens */
+    .hero {
+        height: 180px;
+    }
+
+    /* Product grid becomes a single column */
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Tables should scroll horizontally instead of overflowing */
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    /* Reduce form padding further */
+    form {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    /* Ensure form elements fill the available width */
+    form input,
+    form select,
+    form textarea {
+        font-size: 1rem;
+    }
+
+    /* Adjust margin utilities for tighter spacing on small screens */
+    .mt-2 {
+        margin-top: 0.8rem;
+    }
+
+    .mt-3 {
+        margin-top: 1.2rem;
+    }
+
+    .mt-4 {
+        margin-top: 1.5rem;
+    }
+
+    .mb-2 {
+        margin-bottom: 0.8rem;
+    }
+
+    .mb-3 {
+        margin-bottom: 1.2rem;
+    }
+
+    .mb-4 {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Show the hamburger button on small screens */
+    .nav-toggle {
+        display: block;
+        margin-right: 1rem;
+    }
+}

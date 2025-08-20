@@ -2,38 +2,36 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wish List</title>
-  <link rel="stylesheet" href="assets/css/pages/wishlist.css">
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
 <body>
-  <header class="navbar">
-    <button class="hamburger" onclick="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <nav class="nav-links" id="navMenu">
-      <div class="nav-left">
-        <a href="#">Minimal Store</a>
-        <a href="#">Cart</a>
-        <a href="#">Wishlist</a>
-        <a href="#">My Orders</a>
-      </div>
-      <div class="nav-right">
-        <button class="btn1">Dark Mode</button>
-        <button class="btn">Login</button>
-        <button class="btn">Register</button>
-        <button class="btn" id="logoutBtn">Logout</button>
-      </div>
-    </nav>
-  </header>
+  <nav class="navbar">
+    <!-- Mobile menu toggle; visible on small screens -->
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <div class="left">
+      <a href="index.html" class="brand">Minimal Store</a>
+      <a href="cart.html">Cart</a>
+      <a href="wishlist.html">Wishlist</a>
+      <a href="orders.html">My Orders</a>
+    </div>
+    <div class="right">
+      <button id="modeToggle" class="mode-toggle">Dark Mode</button>
+      <span id="authLinks">
+        <a href="login.html">Login</a> /
+        <a href="register.html">Register</a>
+      </span>
+      <button id="logoutBtn" class="btn btn-outline" style="display:none;">Logout</button>
+    </div>
+  </nav>
 
-  <div class="container">
-    <h2>Wish List</h2>
-    <div class="table-responsive">
+  <main>
+    <h2 class="mt-2 mb-2">Wish List</h2>
+    <div class="container">
+
       <table>
         <thead>
           <tr>
@@ -42,37 +40,19 @@
             <th colspan="2">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Smartphone</td>
-            <td>$499.99</td>
-            <td class="action_Buttons">
-              <button class="btn addBut">Add to cart</button>
-              <button class="btn">Remove</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Wireless Headphones</td>
-            <td>$149.99</td>
-            <td class="action_Buttons">
-              <button class="btn addBut">Add to cart</button>
-              <button class="btn">Remove</button>
-            </td>
-          </tr>
+        <tbody id="wishlist-body">
+          <!-- Wishlist items will be loaded here -->
         </tbody>
       </table>
+      <div class="mt-4 loader"></div>
+
     </div>
-  </div>
+  </main>
 
   <footer>© 2025 Minimal Store</footer>
+  <script src="assets/js/components/nav_bar.js"></script>
   <script type="module" src="assets/js/main.js"></script>
-
-  <script>
-    function toggleMenu() {
-      const nav = document.getElementById('navMenu');
-      nav.classList.toggle('show');
-    }
-  </script>
+  <script type="module" src="assets/js/pages/wishlist.js"></script>
 </body>
 
 </html>
