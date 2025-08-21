@@ -406,6 +406,7 @@ table {
     background-color: var(--surface-color);
     border: 1px solid var(--border-color);
     box-shadow: 0 2px 4px var(--shadow-color);
+
 }
 
 th,
@@ -424,6 +425,47 @@ th {
 tr:hover {
     background-color: var(--bg-color);
 }
+
+/* scroll container */
+.table-wrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    /* nicer nested scrolling */
+    border-radius: 8px;
+    /* optional */
+}
+
+/* let the table grow to its content, but not shrink below the container */
+.table-wrap>table {
+    width: max-content;
+    /* overrides your table{width:100%} inside the wrapper */
+    min-width: 100%;
+}
+
+/* keep cells on one line so overflow triggers horizontal scroll */
+.table-wrap>table th,
+.table-wrap>table td {
+    white-space: nowrap;
+}
+
+/* if a particular column should wrap, opt-in with a class */
+td.wrap,
+th.wrap {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* (optional) sticky header while scrolling horizontally */
+.table-wrap thead th {
+    position: sticky;
+    top: 0;
+    background: var(--bg-color);
+    z-index: 1;
+}
+
 
 
 /* Utility classes */

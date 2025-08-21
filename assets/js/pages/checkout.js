@@ -127,7 +127,7 @@ function attachCheckoutEvents(items, subtotal) {
         await deleteDoc(cartDoc.ref);
       }
 
-      window.location.href = "../orders.html";
+      location.href = `./paypal.html?amount=${total}`;
     } catch (err) {
       console.error("Error confirming order:", err);
       alert("Error occurred during creating order");

@@ -48,7 +48,7 @@ function renderRow(id, data) {
   tr.dataset.id = id;
   tr.innerHTML = `
     <td>${id}</td>
-    <td>${data.name}</td>
+    <td >${data.name}</td>
     <td class="category" data-category-id="${data.category}"><${
     data.category
   }</td>
@@ -139,14 +139,11 @@ function watchProducts() {
 }
 
 async function resolveCategorys() {
-  const q2 = query(collection(db, "categories"), orderBy("updatedAt", "asc"));
-  const snap = await getDocs(q2);
+  const snap = await getDocs(collection(db, "categories"));
   snap.forEach((doc) => {
-    const el = document.querySelector(
+    const el = document.querySelectorAll(
       `.category[data-category-id="${doc.id}"]`
-    );
-    if (!el) return;
-    el.textContent = doc.data().name;
+    ).forEach(el => el.textContent = doc.data().name);
   });
 }
 

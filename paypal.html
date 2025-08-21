@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Checkout — PayPal Sandbox</title>
+
+    <!-- Optional font; remove if you want zero external CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg: #0f172a;
+            /* slate-900 */
+            --bg-soft: #111827;
+            /* gray-900 */
+            --card: #0b1020;
+            /* deep navy */
+            --text: #e5e7eb;
+            /* gray-200 */
+            --muted: #9ca3af;
+            /* gray-400 */
+            --accent: #22d3ee;
+            /* cyan-400 */
+            --ring: rgba(34, 211, 238, .35);
+            --border: rgba(148, 163, 184, .2);
+            --success: #10b981;
+            /* emerald-500 */
+            --danger: #ef4444;
+            /* red-500 */
+            --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            --radius: 16px;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg: #f8fafc;
+                --bg-soft: #f1f5f9;
+                --card: #ffffff;
+                --text: #0f172a;
+                --muted: #475569;
+                --border: rgba(15, 23, 42, .08);
+                --shadow: 0 10px 30px rgba(2, 6, 23, .08);
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 600px at 10% -10%, rgba(34, 211, 238, .15), transparent 60%),
+                radial-gradient(1200px 600px at 110% 10%, rgba(59, 130, 246, .12), transparent 60%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+        }
+
+        .container {
+            max-width: 720px;
+            margin: clamp(20px, 8vh, 80px) auto;
+            padding: 24px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: clamp(20px, 4vw, 32px);
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .title {
+            margin: 0;
+            font-size: clamp(20px, 2.4vw, 28px);
+            letter-spacing: .2px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 12px;
+            color: var(--muted);
+            background: linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, 0));
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px 16px;
+            margin: 10px 0 18px;
+            padding: 14px 16px;
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(34, 211, 238, .06), rgba(34, 211, 238, 0));
+        }
+
+        .summary .label {
+            color: var(--muted);
+        }
+
+        .total {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin: 4px 0 18px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(16, 185, 129, .12), rgba(16, 185, 129, 0));
+            border: 1px solid rgba(16, 185, 129, .25);
+        }
+
+        .total .amount {
+            font-size: clamp(18px, 2.2vw, 22px);
+            font-weight: 600;
+        }
+
+        .paypal-wrap {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            background: rgba(255, 255, 255, .02);
+        }
+
+        .note {
+            margin: 14px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .msg {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .msg.success {
+            display: block;
+            background: rgba(16, 185, 129, .15);
+            border: 1px solid rgba(16, 185, 129, .35);
+            color: #d1fae5;
+        }
+
+        .msg.error {
+            display: block;
+            background: rgba(239, 68, 68, .15);
+            border: 1px solid rgba(239, 68, 68, .35);
+            color: #fee2e2;
+        }
+
+        @media (prefers-color-scheme: light) {
+            .msg.success {
+                color: #065f46;
+            }
+
+            .msg.error {
+                color: #7f1d1d;
+            }
+        }
+
+        /* Small helper layout */
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 18px 0;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <section class="card" aria-label="Checkout">
+            <div class="header">
+                <h1 class="title">PayPal Checkout</h1>
+                <span class="badge" title="Sandbox mode">
+                    <span class="badge-dot" aria-hidden="true"></span> Sandbox
+                </span>
+            </div>
+
+            <div class="summary" role="group" aria-label="Order summary">
+                <div class="label">Item</div>
+                <div><strong>Sample Purchase</strong></div>
+                <div class="label">Currency</div>
+                <div>USD</div>
+                <div class="label">Amount</div>
+                <div class="js-amount">$100.00</div>
+            </div>
+
+            <div class="total" aria-live="polite">
+                <div class="muted">Total</div>
+                <div class="amount js-total">$100.00</div>
+            </div>
+
+            <div class="paypal-wrap">
+                <div id="paypal-button-container" aria-label="PayPal buttons"></div>
+            </div>
+
+            <p class="note">
+                Tip: set <code>?amount=49.99</code> in the URL to try a different sandbox amount.
+            </p>
+
+            <div id="result" class="msg" role="status" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <!-- PayPal SDK (Sandbox). Includes card funding in Buttons when eligible. -->
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=ATkEvXWB268z9jyTHFsKXf7B8SiTUWOJPY11eok6FRG50_Nh8D_3KIh6XFtJDVy8hIZEN17RKYX77suA&currency=USD&intent=capture&components=buttons&enable-funding=card">
+        </script>
+
+    <script>
+        // ---- Utilities ---------------------------------------------------------
+        function parseAmountFromQuery(defaultValue) {
+            const params = new URLSearchParams(location.search);
+            const raw = params.get('amount');
+            const val = Number.parseFloat(raw);
+            if (!Number.isFinite(val) || val <= 0) return defaultValue;
+            // Round to 2 decimals for USD
+            return Math.round(val * 100) / 100;
+        }
+
+        function fmtUSD(n) {
+            try {
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(n);
+            } catch {
+                return '$' + (Number(n).toFixed(2));
+            }
+        }
+
+        function showMessage(kind, text) {
+            const el = document.getElementById('result');
+            el.className = 'msg ' + (kind === 'error' ? 'error' : 'success');
+            el.textContent = text;
+        }
+
+        // ---- Amount (from URL or default) -------------------------------------
+        const DEFAULT_AMOUNT = 100.00;
+        const amount = parseAmountFromQuery(DEFAULT_AMOUNT);
+        document.querySelectorAll('.js-amount, .js-total').forEach(el => el.textContent = fmtUSD(amount));
+
+        // ---- PayPal Buttons ----------------------------------------------------
+        if (!window.paypal || !paypal.Buttons) {
+            showMessage('error', 'PayPal failed to load. Please refresh or check your network.');
+        } else {
+            paypal.Buttons({
+                style: {
+                    layout: 'vertical',
+                    color: 'gold',     // sandbox-friendly palette
+                    shape: 'pill',
+                    label: 'paypal',
+                    height: 45
+                },
+
+                // Create order on the client for sandbox demos (server recommended for prod)
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            description: 'Sample Purchase',
+                            amount: {
+                                currency_code: 'USD',
+                                value: amount.toFixed(2)
+                            }
+                        }]
+                    });
+                },
+
+                // Capture immediately on approve (intent=capture). In prod, verify on server.
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        const name = details?.payer?.name?.given_name || 'Customer';
+                        const id = details?.id || '';
+                        const status = details?.status || 'COMPLETED';
+                        showMessage('success', `✅ ${status}: Thank you, ${name}! Transaction ID: ${id}`);
+                    });
+                },
+
+                onCancel: function () {
+                    showMessage('error', 'Payment cancelled. You can try again anytime.');
+                },
+
+                onError: function (err) {
+                    console.error('PayPal error:', err);
+                    showMessage('error', 'Something went wrong processing the payment.');
+                }
+            }).render('#paypal-button-container');
+        }
+    </script>
+</body>
+
+</html>
