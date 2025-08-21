@@ -33,9 +33,9 @@ form.addEventListener("submit", async (e) => {
       createdAt: serverTimestamp(),
     });
 
-    localStorage.setItem("userRole", role);
-    localStorage.setItem("userName", name);
-    localStorage.setItem("Email", email);
+    localStorage.setItem("user", {uid: user.uid, email: user.email, role, name});
+    // localStorage.setItem("userName", name);
+    // localStorage.setItem("Email", email);
 
     alert("User registered successfully!");
     form.reset();

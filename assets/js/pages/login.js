@@ -32,7 +32,7 @@ if (loginForm) {
         const name = docInfo.data().Name || "Guest";
 
         localStorage.setItem(
-          "userInfo",
+          "user",
           JSON.stringify({
             uid: user.uid,
             email: user.email,
@@ -40,8 +40,6 @@ if (loginForm) {
             name,
           })
         );
-
-        localStorage.setItem("userRole", role);
 
         if (role === "Admin") {
           location.href = "admin/";
