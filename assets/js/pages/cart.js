@@ -67,7 +67,7 @@ function generateCartItems(cartItems) {
           />
         </td>
         <td>$${total}</td>
-        <td><button class="btn btn-danger-outline" data-id="${item.id}">Remove</button></td>
+        <td><button class="btn btn-danger-outline remove-btn" data-id="${item.id}">Remove</button></td>
       </tr>
     `;
     })
@@ -98,10 +98,9 @@ function attachCartEvents() {
   document.querySelectorAll(".qty-input").forEach((input) => {
     input.setAttribute("min", 1);
     input.setAttribute("max", input.getAttribute("data-stock"));
-
     input.addEventListener("change", async (e) => {
       let newQty = parseInt(e.target.value);
-      let cartDocId = e.target.getAttribute("data-id");
+      const cartDocId = e.target.getAttribute("data-id");      
       await updateDoc(doc(db, "users", userId, "cart", cartDocId), {
         quantity: newQty,
       });
@@ -110,7 +109,8 @@ function attachCartEvents() {
   // remove item
   document.querySelectorAll(".remove-btn").forEach((btn) => {
     btn.addEventListener("click", async () => {
-      let cartDocId = btn.getAttribute("data-id");
+      const cartDocId = btn.getAttribute("data-id");
+      console.log("remove item",userId,cartDocId);
       await deleteDoc(doc(db, "users", userId, "cart", cartDocId));
     });
   });
