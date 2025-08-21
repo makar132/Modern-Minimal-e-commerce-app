@@ -143,9 +143,9 @@ function createProductCard(p) {
   price.className = "price";
   price.textContent = `$${Number(p.price ?? 0).toFixed(2)}`;
 
-  const desc = document.createElement("div");
-  desc.className = "description";
-  desc.textContent = p.description || "";
+  // const desc = document.createElement("div");
+  // desc.className = "description";
+  // desc.textContent = p.description || "";
 
   // Actions
   const actions = document.createElement("div");
@@ -170,7 +170,7 @@ function createProductCard(p) {
   actions.append(addBtn, wishBtn);
 
   // Assemble
-  content.append(title, price, desc, actions);
+  content.append(title, price, actions);
   card.append(media, content);
 
   // Card navigation (ignore button clicks)
