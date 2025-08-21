@@ -18,10 +18,12 @@ form.addEventListener("submit", async (e) => {
   }
 
   try {
-
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
     const user = userCredential.user;
-
 
     await setDoc(doc(db, "users", user.uid), {
       Id: user.uid,
@@ -32,19 +34,17 @@ form.addEventListener("submit", async (e) => {
     });
 
     localStorage.setItem("userRole", role);
-    localStorage.setItem("userName", name); 
-     localStorage.setItem("Email", email); 
+    localStorage.setItem("userName", name);
+    localStorage.setItem("Email", email);
 
     alert("User registered successfully!");
     form.reset();
 
-
     if (role === "Admin") {
-      window.location.href = "admin/products.html";
+      location.href = "admin/";
     } else {
-      window.location.href = "customer-dashboard.html";
+      location.href = "index.html";
     }
-
   } catch (error) {
     console.error("Error:", error.message);
     alert(error.message);

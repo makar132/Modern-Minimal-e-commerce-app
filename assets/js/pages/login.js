@@ -1,6 +1,12 @@
 import { auth, db } from "../main.js";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import {
+  doc,
+  getDoc,
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const loginForm = document.getElementById("login-Form");
 
@@ -12,10 +18,12 @@ if (loginForm) {
     const password = document.getElementById("password").value.trim(); // trim added
 
     try {
-
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
-
 
       const docInfo = await getDoc(doc(db, "users", user.uid));
 
@@ -23,17 +31,17 @@ if (loginForm) {
         const role = docInfo.data().Role || "Customer";
         const name = docInfo.data().Name || "Guest";
 
-
-        localStorage.setItem("userInfo", JSON.stringify({
-          uid: user.uid,
-          email: user.email,
-          role,
-          name
-        }));
-
+        localStorage.setItem(
+          "userInfo",
+          JSON.stringify({
+            uid: user.uid,
+            email: user.email,
+            role,
+            name,
+          })
+        );
 
         localStorage.setItem("userRole", role);
-
 
         if (role === "Admin") {
           location.href = "admin/";
@@ -43,9 +51,7 @@ if (loginForm) {
       } else {
         alert("No user data found in Firestore!");
       }
-
     } catch (error) {
-
       console.error("Login error:", error.code, error.message);
 
       switch (error.code) {
@@ -67,4 +73,3 @@ if (loginForm) {
     }
   });
 }
-
