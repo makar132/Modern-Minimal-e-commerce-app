@@ -44,9 +44,15 @@
     padding: 0;
 }
 
-html,
+/* html,
 body {
     height: 100%;
+} */
+html,
+body {
+    min-height: 100%;
+    height: auto;
+    overflow: visible;
 }
 
 body {
@@ -98,6 +104,9 @@ main {
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, .04);
+    backdrop-filter: saturate(1.2) blur(6px);
+    /* safe to drop if you prefer */
 }
 
 .navbar a {
@@ -131,6 +140,18 @@ main {
     background-color: var(--primary-color);
     color: #fff;
     border-color: var(--primary-color);
+}
+
+/* Navigation toggle for small screens */
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.25rem;
+    color: var(--text-color);
 }
 
 /* Hero section */
@@ -519,17 +540,7 @@ footer {
     font-size: 0.9rem;
 }
 
-/* Navigation toggle for small screens */
-.nav-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    line-height: 1;
-    cursor: pointer;
-    padding: 0.25rem;
-    color: var(--text-color);
-}
+
 
 
 
@@ -596,45 +607,73 @@ footer {
 /* Small devices: phones */
 @media (max-width: 600px) {
 
-    /* Navbar: show the hamburger button and hide links by default */
+    /* Keep header row compact */
     .navbar {
-        flex-direction: row;
-        align-items: center;
-        padding: 0.8rem 1rem;
+        flex-wrap: nowrap;
+        gap: .75rem;
+        padding: .7rem 1rem;
     }
 
-    /* Hide all navigation links except the brand and show only when menu is open */
+    .navbar .left {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .navbar .left a.brand {
+        margin-right: auto;
+        font-weight: 700;
+    }
+
     .navbar .left a:not(.brand),
     .navbar .right {
         display: none;
     }
 
-    .navbar.open .left a:not(.brand),
+    .navbar.open {
+        flex-wrap: wrap;
+    }
+
+    .navbar.open .left,
     .navbar.open .right {
         display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
     }
 
-    /* Stack links vertically when menu is open */
-    .navbar.open .left a:not(.brand) {
-        margin-bottom: 0.5rem;
+    .navbar.open .left {
+        margin-top: .5rem;
     }
 
     .navbar.open .right {
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-        margin-top: 0.5rem;
+        border-top: 1px solid var(--border-color);
+        margin-top: .5rem;
+        padding-top: .5rem;
+        gap: .5rem;
     }
 
-    /* Always show the brand */
-    .navbar .left a.brand {
-        margin-right: auto;
+    .navbar.open .left a:not(.brand) {
+        display: block;
+        padding: .6rem .75rem;
+        border-radius: 8px;
     }
 
-    /* Spacing for dark mode / logout buttons when stacked */
     .navbar.open .mode-toggle,
-    .navbar.open .btn.btn-outline {
-        margin-bottom: 0.5rem;
+    .navbar.open .btn.btn-outline,
+    .navbar.open #authLinks {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    #authLinks a {
+        margin: 0 .25rem;
+    }
+
+    .nav-toggle {
+        display: inline-flex;
+        align-items: center;
     }
 
     /* Compress hero height for small screens */
@@ -697,9 +736,5 @@ footer {
         margin-bottom: 1.5rem;
     }
 
-    /* Show the hamburger button on small screens */
-    .nav-toggle {
-        display: block;
-        margin-right: 1rem;
-    }
+
 }
