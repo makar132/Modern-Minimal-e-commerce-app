@@ -25,6 +25,7 @@ const els = {
   tbody: document.getElementById("adminProducts"),
   form: document.getElementById("productForm"),
   submitBtn: document.querySelector("#productForm button[type='submit']"),
+  resetBtn: document.querySelector("#productForm button[type='reset']"),
 };
 
 // Populate category <select> used in forms (has class 'category-select')
@@ -81,6 +82,12 @@ export async function prefillProductForm(id) {
 window.prefillProductForm = prefillProductForm;
 
 // Submit handler (create or update)
+function resetForm() {
+  // UX
+  els.form.reset();
+  els.submitBtn.textContent = "Add Product";
+  els.form.productId.value = "";
+}
 async function handleSubmit(e) {
   e.preventDefault();
   const fd = new FormData(els.form);
@@ -91,7 +98,9 @@ async function handleSubmit(e) {
     category: fd.get("category"),
     description: fd.get("description").trim(),
     stock: Number(fd.get("stock")),
-    image: fd.get("image").trim(),
+    image:
+      fd.get("image").trim() ??
+      "https://placehold.co/600x400?text=Product+Image",
     updatedAt: serverTimestamp(),
   };
   // Basic validation
@@ -100,15 +109,17 @@ async function handleSubmit(e) {
     return;
   }
 
-  if (id) {
-    await updateDoc(doc(db, "products", id), data);
-  } else {
-    await addDoc(productsCol, { ...data, createdAt: serverTimestamp() });
+  try {
+    if (id && id !== "") {
+      await updateDoc(doc(db, "products", id), data);
+    } else {
+      await addDoc(productsCol, { ...data, createdAt: serverTimestamp() });
+    }
+    alert("Product saved successfully.");
+    resetForm();
+  } catch (e) {
+    alert(e.message);
   }
-  // UX
-  els.form.reset();
-  els.submitBtn.textContent = "Add Product";
-  els.form.productId.value = "";
 }
 
 function attachTableEvents() {
@@ -141,15 +152,16 @@ function watchProducts() {
 async function resolveCategorys() {
   const snap = await getDocs(collection(db, "categories"));
   snap.forEach((doc) => {
-    const el = document.querySelectorAll(
-      `.category[data-category-id="${doc.id}"]`
-    ).forEach(el => el.textContent = doc.data().name);
+    const el = document
+      .querySelectorAll(`.category[data-category-id="${doc.id}"]`)
+      .forEach((el) => (el.textContent = doc.data().name));
   });
 }
 
 export function initAdminProducts() {
   if (!els.form || !els.tbody) return;
   els.form.addEventListener("submit", handleSubmit);
+  els.form.addEventListener("reset", resetForm);
   populateCategorySelects();
   watchProducts();
   attachTableEvents();

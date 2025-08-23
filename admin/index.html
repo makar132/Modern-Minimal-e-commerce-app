@@ -57,7 +57,7 @@
       <label for="price">Price</label>
       <input type="number" name="price" step="0.01" required>
       <label for="category">Category</label>
-      <select name="category" class="category-select"></select>
+      <select name="category" class="category-select" required></select>
       <label for="description">Description</label>
       <textarea name="description" rows="3"></textarea>
       <label for="stock">Stock Quantity</label>
@@ -65,6 +65,8 @@
       <label for="image">Image Path</label>
       <input type="text" name="image" placeholder="e.g., images/smartphone.png">
       <button type="submit" class="btn mt-2">Add Product</button>
+      <button type="reset" class="btn btn-outline mt-2 resetBtn">Reset</button>
+      
     </form>
   </main>
   <footer>

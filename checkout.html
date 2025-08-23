@@ -51,7 +51,6 @@
 </head>
 
 <body>
-  <!-- Nav keeps your component/JS; only markup, a11y bits improved -->
   <nav class="navbar" aria-label="Primary">
     <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
     <div class="left">
@@ -101,9 +100,7 @@
       <section aria-labelledby="shipping-details">
         <h3 id="shipping-details" class="section-title">Shipping Details</h3>
 
-        <!-- Keep using your global form styles from main.css -->
-        <form id="checkout-form" novalidate>
-          <!-- Keep labels “for” + inputs “id” aligned; add autocomplete to help mobile UX -->
+        <form id="checkout-form">
           <div class="form-group">
             <label for="name">Full Name</label>
             <input id="name" name="name" type="text" placeholder="Enter your full name" autocomplete="name" required />

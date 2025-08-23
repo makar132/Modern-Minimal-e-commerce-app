@@ -33,20 +33,22 @@
   </nav>
   <main>
     <h2 class="mb-2">Order Management</h2>
-    <table aria-describedby="orders-table-caption" class="mb-1">
-      <caption id="orders-table-caption" class="text-center mb-1">Orders</caption>
-      <thead>
-        <tr>
-          <th scope="col">Order ID</th>
-          <th scope="col">Customer</th>
-          <th scope="col">Items</th>
-          <th scope="col">Total</th>
-          <th scope="col">Status</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody id="adminOrders"></tbody>
-    </table>
+    <div class="table-wrap" role="region" aria-label="Scrollable table" tabindex="0">
+      <table aria-describedby="orders-table-caption" class="mb-1">
+        <caption id="orders-table-caption" class="text-center mb-1">Orders</caption>
+        <thead>
+          <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Items</th>
+            <th scope="col">Total</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody id="adminOrders"></tbody>
+      </table>
+    </div>
   </main>
   <footer>
     <p>&copy; 2025 Minimal Store. All rights reserved.</p>

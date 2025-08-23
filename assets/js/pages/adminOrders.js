@@ -16,7 +16,7 @@ function renderOrder(order) {
   tr.innerHTML = `
         <td>${order.id}</td>
         <td>${order.customerEmail || order.customerId}</td>
-        <td>${order.items?.length || 0}</td>
+        <td>${order.items.map((i) => `${i.name} x${i.quantity}`).join(", ") }</td>
         <td>${order.total?.toFixed?.(2) ?? ""}</td>
         <td > <span class="orders-badge ${order.status}"> ${order.status}</span> </td>
         <td> ${
