@@ -22,29 +22,38 @@ const cartItems = [];
 const goto = (p) =>
   (window.location.href = new URL(p, location.origin + APP_BASE).href);
 
-// 1. Fetch cart items for the test user
 function getCartItems() {
   const cartRef = collection(db, "users", userId, "cart");
+
   return onSnapshot(cartRef, async (snapshot) => {
-    // loop over each cart item
-    for (const docItem of snapshot.docs) {
-      const cartData = docItem.data();
-      // get product details
-      const productRef = doc(db, "products", cartData.productId);
-      const productSnap = await getDoc(productRef);
-      if (productSnap.exists()) {
-        const productData = productSnap.data();
-        cartItems.push({
-          id: docItem.id,
-          productId: cartData.productId,
-          quantity: cartData.quantity,
-          ...productData,
-        });
-      }
-    }
-    generateCartItems(cartItems);
+    // Build a fresh array from the snapshot
+    const items = (
+      await Promise.all(
+        snapshot.docs.map(async (docItem) => {
+          const cartData = docItem.data();
+          const productSnap = await getDoc(
+            doc(db, "products", cartData.productId)
+          );
+          if (!productSnap.exists()) return null;
+          const productData = productSnap.data();
+
+          return {
+            id: docItem.id,
+            productId: cartData.productId,
+            quantity: cartData.quantity,
+            ...productData,
+          };
+        })
+      )
+    ).filter(Boolean);
+
+    cartItems.length = 0;
+    cartItems.push(...items);
+
+    generateCartItems(items);
   });
 }
+
 // 2. Generate HTML table
 function generateCartItems(cartItems) {
   let subtotal = 0;
