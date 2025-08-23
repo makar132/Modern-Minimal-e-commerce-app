@@ -12,6 +12,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 const userId = user.uid;
 
 const APP_BASE = "/Modern-Minimal-e-commerce-app/";
+const cartItems = [];
 
 /**
  * Navigate to a relative path within the app base.
@@ -25,7 +26,6 @@ const goto = (p) =>
 function getCartItems() {
   const cartRef = collection(db, "users", userId, "cart");
   onSnapshot(cartRef, async (snapshot) => {
-    let cartItems = [];
     // loop over each cart item
     for (const docItem of snapshot.docs) {
       const cartData = docItem.data();
@@ -118,6 +118,10 @@ function attachCartEvents() {
   const checkoutBtn = document.querySelector(".checkout-btn");
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
+      if(cartItems.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
       goto("checkout.html");
     });
   }
