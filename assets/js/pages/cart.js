@@ -25,7 +25,7 @@ const goto = (p) =>
 // 1. Fetch cart items for the test user
 function getCartItems() {
   const cartRef = collection(db, "users", userId, "cart");
-  onSnapshot(cartRef, async (snapshot) => {
+  return onSnapshot(cartRef, async (snapshot) => {
     // loop over each cart item
     for (const docItem of snapshot.docs) {
       const cartData = docItem.data();
@@ -100,7 +100,7 @@ function attachCartEvents() {
     input.setAttribute("max", input.getAttribute("data-stock"));
     input.addEventListener("change", async (e) => {
       let newQty = parseInt(e.target.value);
-      const cartDocId = e.target.getAttribute("data-id");      
+      const cartDocId = e.target.getAttribute("data-id");
       await updateDoc(doc(db, "users", userId, "cart", cartDocId), {
         quantity: newQty,
       });
@@ -110,7 +110,7 @@ function attachCartEvents() {
   document.querySelectorAll(".remove-btn").forEach((btn) => {
     btn.addEventListener("click", async () => {
       const cartDocId = btn.getAttribute("data-id");
-      console.log("remove item",userId,cartDocId);
+      console.log("remove item", userId, cartDocId);
       await deleteDoc(doc(db, "users", userId, "cart", cartDocId));
     });
   });
@@ -118,7 +118,7 @@ function attachCartEvents() {
   const checkoutBtn = document.querySelector(".checkout-btn");
   if (checkoutBtn) {
     checkoutBtn.addEventListener("click", () => {
-      if(cartItems.length === 0) {
+      if (cartItems.length === 0) {
         alert("Your cart is empty!");
         return;
       }
