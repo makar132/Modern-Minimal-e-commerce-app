@@ -70,6 +70,12 @@ export async function prefillCategoryForm(id) {
   setText(els.submitBtn, "Update Category");
 }
 window.prefillCategoryForm = prefillCategoryForm;
+function resetForm() {
+  // UX
+  els.form.reset();
+  els.submitBtn.textContent = "Add Category";
+  els.form.categoryId.value = "";
+}
 async function handleSubmit(e) {
   e.preventDefault();
   const fd = new FormData(els.form);
@@ -86,15 +92,12 @@ async function handleSubmit(e) {
       createdAt: serverTimestamp(),
     });
   }
-
-  // UX
-  els.form.reset();
-  els.submitBtn.textContent = "Add Category";
-  els.form.categoryId.value = "";
+  resetForm();
 }
 export function initAdminCategories() {
   if (!els.form || !els.tbody) return;
   els.form.addEventListener("submit", handleSubmit);
+  els.form.addEventListener("reset", resetForm);
   watchCategories();
   attachTableEvents();
 }
